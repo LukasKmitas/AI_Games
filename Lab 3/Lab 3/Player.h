@@ -17,24 +17,33 @@ public:
 private:
 
     void setupPlayer();
+    void setupConeOfVision();
+
     void movement();
     void wrapAround();
+    void coneOfVision();
 
     sf::Vector2f normalize(sf::Vector2f vector);
     float length(sf::Vector2f vector);
+    float toRadians(float degrees);
 
     sf::Texture m_playerTexture;
     sf::Sprite m_playerSprite;
 
+    sf::ConvexShape m_coneOfVision;
+
     sf::Vector2f m_velocity;
+
+    sf::VertexArray m_directionLine{ sf::Lines, 2 };
 
     float m_acceleration = 10.0f;
     float m_deceleration = 20.0f;
     float m_maxAceleration = 30.0f;
-    float m_speed = 200;
-    float m_maxSpeed = 200;
-    float m_turnSpeed = 10;
-    float m_rotation;
+    float m_speed = 150.0f;
+    float m_maxSpeed = 200.0f;
+    float m_turnSpeed = 10.0f;
+    float m_rotationSpeed = 3.0f;
+    float m_coneRotation = 0.0f;
 
 };
 

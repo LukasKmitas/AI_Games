@@ -4,6 +4,7 @@
 Player::Player()
 {
 	setupPlayer();
+    setupConeOfVision();
 }
 
 Player::~Player()
@@ -18,10 +19,22 @@ void Player::update(sf::Time t_deltaTime)
 	wrapAround();
 
 	m_playerSprite.move(m_velocity * deltaTimeSec);
+
+    sf::Vector2f direction = sf::Vector2f(std::cos(toRadians(m_playerSprite.getRotation() - 90)),
+        std::sin(toRadians(m_playerSprite.getRotation() - 90)));
+
+    m_directionLine[0].position = m_playerSprite.getPosition();
+    m_directionLine[1].position = m_playerSprite.getPosition() - direction * 100.0f;
+
+    m_coneRotation = m_coneOfVision.getRotation();
+    m_coneOfVision.rotate(m_coneRotation);
+    coneOfVision();
 }
 
 void Player::draw(sf::RenderWindow& m_window)
 {
+    m_window.draw(m_coneOfVision);
+    m_window.draw(m_directionLine);
 	m_window.draw(m_playerSprite);
 }
 
@@ -30,6 +43,9 @@ sf::Vector2f Player::getPosition() const
 	return m_playerSprite.getPosition();
 }
 
+/// <summary>
+/// Sets up the player sprite/properties
+/// </summary>
 void Player::setupPlayer()
 {
 	if (!m_playerTexture.loadFromFile("Assets\\Images\\hai.png"))
@@ -43,65 +59,57 @@ void Player::setupPlayer()
 	m_playerSprite.setOrigin(m_playerSprite.getTextureRect().width / 2, m_playerSprite.getTextureRect().height / 2);
 	m_playerSprite.setScale(0.5, 0.5);
     m_playerSprite.setRotation(180);
+
+    m_directionLine[0].position = m_playerSprite.getPosition();
+    m_directionLine[1].position = m_playerSprite.getPosition();
+    m_directionLine[1].position.x += 100.0f;
+    m_directionLine[0].color = sf::Color::Black;
+    m_directionLine[1].color = sf::Color::Black;
 }
 
+/// <summary>
+/// Sets up the vision of cone 
+/// </summary>
+void Player::setupConeOfVision()
+{
+    m_coneOfVision.setPointCount(3);
+    m_coneOfVision.setFillColor(sf::Color(0, 0, 0, 100));
+    m_coneOfVision.setOutlineThickness(5);
+}
+
+/// <summary>
+/// Makes the player move like a car
+/// </summary>
 void Player::movement()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        m_velocity.x -= m_acceleration;
+        m_playerSprite.rotate(-m_rotationSpeed);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        m_velocity.x += m_acceleration;
+        m_playerSprite.rotate(m_rotationSpeed);
     }
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        m_velocity.y -= m_acceleration;
+        sf::Vector2f direction = normalize(sf::Vector2f(std::cos(toRadians(m_playerSprite.getRotation() - 90)),
+            std::sin(toRadians(m_playerSprite.getRotation() - 90))));
+        m_velocity -= direction * m_acceleration;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        m_velocity.y += m_acceleration;
+        sf::Vector2f direction = normalize(sf::Vector2f(std::cos(toRadians(m_playerSprite.getRotation() - 90)),
+            std::sin(toRadians(m_playerSprite.getRotation() - 90))));
+        m_velocity += direction * m_acceleration;
     }
 
     // For deceleration
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    {
-        if (m_velocity.x > 0)
-        {
-            m_velocity.x -= m_deceleration;
-            if (m_velocity.x < 0)
-            {
-                m_velocity.x = 0;
-            }
-        }
-        else if (m_velocity.x < 0)
-        {
-            m_velocity.x += m_deceleration;
-            if (m_velocity.x > 0)
-            {
-                m_velocity.x = 0;
-            }
-        }
-    }
-
     if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        if (m_velocity.y > 0)
+        if (length(m_velocity) > 0)
         {
-            m_velocity.y -= m_deceleration;
-            if (m_velocity.y < 0)
-            {
-                m_velocity.y = 0;
-            }
-        }
-        else if (m_velocity.y < 0)
-        {
-            m_velocity.y += m_deceleration;
-            if (m_velocity.y > 0)
-            {
-                m_velocity.y = 0;
-            }
+            m_velocity -= normalize(m_velocity) * m_deceleration;
         }
     }
 }
@@ -127,6 +135,25 @@ void Player::wrapAround()
     }
 }
 
+void Player::coneOfVision()
+{
+    sf::Vector2f playerPos = m_playerSprite.getPosition();
+    m_coneOfVision.setPosition(playerPos);
+
+    m_coneOfVision.setRotation(m_playerSprite.getRotation() + 90);
+
+    sf::Vector2f p1(0.0f, 0.0f); // Origin
+    sf::Vector2f p2(100.0f, -50.0f); //width
+    sf::Vector2f p3(100.0f, 50.0f); //width
+
+    // Set the points of the cone shape
+    m_coneOfVision.setPoint(0, p1);
+    m_coneOfVision.setPoint(1, p2);
+    m_coneOfVision.setPoint(2, p3);
+}
+
+
+
 sf::Vector2f Player::normalize(sf::Vector2f vector)
 {
     float length = std::sqrt(vector.x * vector.x + vector.y * vector.y);
@@ -141,4 +168,9 @@ sf::Vector2f Player::normalize(sf::Vector2f vector)
 float Player::length(sf::Vector2f vector)
 {
     return std::sqrt(vector.x * vector.x + vector.y * vector.y);
+}
+
+float Player::toRadians(float degrees)
+{
+    return degrees * 3.14159265359f / 180.0f;
 }
