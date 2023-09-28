@@ -1,26 +1,2 @@
-﻿  Alien.cpp
-C:\Users\labuser\Desktop\Ai Games - Oisin\AI-Games_Lab-1\Lab 1\Lab 1\Alien.cpp(38,30): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\labuser\Desktop\Ai Games - Oisin\AI-Games_Lab-1\Lab 1\Lab 1\Alien.cpp(38,25): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\labuser\Desktop\Ai Games - Oisin\AI-Games_Lab-1\Lab 1\Lab 1\Alien.cpp(45,47): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\labuser\Desktop\Ai Games - Oisin\AI-Games_Lab-1\Lab 1\Lab 1\Alien.cpp(54,78): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-  Alien2.cpp
-C:\Users\labuser\Desktop\Ai Games - Oisin\AI-Games_Lab-1\Lab 1\Lab 1\Alien2.cpp(46,48): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\labuser\Desktop\Ai Games - Oisin\AI-Games_Lab-1\Lab 1\Lab 1\Alien2.cpp(55,80): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-  Generating Code...
-  Lab 1.vcxproj -> C:\Users\labuser\Desktop\Ai Games - Oisin\AI-Games_Lab-1\Lab 1\x64\Debug\Lab 1.exe
+﻿  Game.cpp
+  Lab 1.vcxproj -> C:\Users\labuser\Desktop\Ai Games - Oisin\AI_Games\Lab 1\x64\Debug\Lab 1.exe

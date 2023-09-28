@@ -55,6 +55,8 @@ void Game::processKeys(sf::Event t_event)
 	{
 		m_exitGame = true;
 	}
+
+	
 }
 
 void Game::update(sf::Time t_deltaTime)
@@ -65,6 +67,8 @@ void Game::update(sf::Time t_deltaTime)
 	}
 	m_player.update(t_deltaTime);
 
+
+	m_enemy.update(t_deltaTime);
 }
 
 void Game::render()
