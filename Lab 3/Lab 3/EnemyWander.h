@@ -26,7 +26,7 @@ private:
 	sf::Sprite m_enemySprite;
 
 	sf::Vector2f m_velocity;
-	float m_orientation;
+	float m_orientation= 0;
 	float wanderOrientation;
 	float m_maxRotation = 0.05f;
 	float m_speed = 200.0f;
