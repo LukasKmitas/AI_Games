@@ -15,14 +15,20 @@ EnemyArriveSlow::~EnemyArriveSlow()
 {
 }
 
-void EnemyArriveSlow::update(sf::Time t_deltaTime)
+void EnemyArriveSlow::update(sf::Time t_deltaTime, sf::Vector2f& playerPosition)
 {
-	EnemyBase::update(t_deltaTime);
+	EnemyBase::update(t_deltaTime, playerPosition);
 
 	SteeringOutput steering = getSteering(sf::Vector2f(m_player.getPosition()));
 
 	m_velocity += steering.linear;
 	m_orientation = getNewOrientation(m_orientation, m_velocity);
+
+	float angle = std::atan2(m_velocity.y, m_velocity.x) * 180.0f / 3.14159265f;
+	if (angle < 0)
+	{
+		angle += 360.0f;
+	}
 }
 
 void EnemyArriveSlow::draw(sf::RenderWindow& m_window)
@@ -78,7 +84,9 @@ SteeringOutput EnemyArriveSlow::getSteering(sf::Vector2f targetPosition)
 		steering.linear = desiredVelocity - m_velocity;
 	}
 
-	steering.angular = 0;
+	sf::Vector2f direction = steering.linear;
+	float angle = atan2(direction.y, direction.x) * 180 / 3.14159265;
+	steering.angular = angle;
 
 	return steering;
 }

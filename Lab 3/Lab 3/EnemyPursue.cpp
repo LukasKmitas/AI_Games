@@ -14,13 +14,9 @@ EnemyPursue::~EnemyPursue()
 {
 }
 
-void EnemyPursue::update(sf::Time t_deltaTime)
+void EnemyPursue::update(sf::Time t_deltaTime, sf::Vector2f& playerPosition)
 {
-	EnemyBase::update(t_deltaTime);
-
-	sf::Vector2f futurePlayerPosition = m_player.getPosition() + (m_player.getVelocity() * predictTime);
-
-	pursue(futurePlayerPosition);
+	EnemyBase::update(t_deltaTime, playerPosition);
 }
 
 void EnemyPursue::draw(sf::RenderWindow& m_window)
@@ -53,10 +49,10 @@ void EnemyPursue::pursue(sf::Vector2f futurePlayerPosition)
     {
         steering.linear = normalize(steering.linear) * maxSpeed;
     }
-    /*if (length(m_velocity) >= maxSpeed)
+    if (length(m_velocity) >= maxSpeed)
     {
         m_velocity = normalize(m_velocity) * maxSpeed;
-    }*/
+    }
     m_velocity = steering.linear; 
     m_orientation = getNewOrientation(m_orientation, m_velocity);
 }
@@ -70,7 +66,9 @@ SteeringOutput EnemyPursue::getSteering(sf::Vector2f targetPosition)
     desiredVelocity = normalize(desiredVelocity);
     steering.linear = desiredVelocity * m_maxAcceleration;
 
-    steering.angular = 0;
+    sf::Vector2f direction = steering.linear;
+    float angle = atan2(direction.y, direction.x) * 180 / 3.14159265;
+    steering.angular = angle;
 
     return steering;
 }

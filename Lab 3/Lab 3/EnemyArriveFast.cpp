@@ -15,9 +15,9 @@ EnemyArriveFast::~EnemyArriveFast()
 {
 }
 
-void EnemyArriveFast::update(sf::Time t_deltaTime)
+void EnemyArriveFast::update(sf::Time t_deltaTime, sf::Vector2f& playerPosition)
 {
-    EnemyBase::update(t_deltaTime);
+    EnemyBase::update(t_deltaTime, playerPosition);
 
     SteeringOutput steering = getSteering(sf::Vector2f(m_player.getPosition()));
 

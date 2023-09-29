@@ -10,7 +10,7 @@ public:
 	EnemyWander();
 	~EnemyWander();
 
-	void update(sf::Time t_deltaTime) override;
+	void update(sf::Time t_deltaTime, sf::Vector2f& playerPosition) override;
 	void draw(sf::RenderWindow& m_window) override;
 
 private:

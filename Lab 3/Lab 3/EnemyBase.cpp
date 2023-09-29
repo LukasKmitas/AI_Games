@@ -1,7 +1,7 @@
 #include "EnemyBase.h"
 #include <iostream>
 
-void EnemyBase::update(sf::Time t_deltaTime)
+void EnemyBase::update(sf::Time t_deltaTime, sf::Vector2f& playerPosition)
 {
     wrapAround();
     float deltaTimeSec = t_deltaTime.asSeconds();
@@ -18,6 +18,22 @@ void EnemyBase::update(sf::Time t_deltaTime)
     coneOfVision();
 
     m_enemyTypeText.setPosition(m_enemySprite.getPosition().x + 50, m_enemySprite.getPosition().y - 100);
+
+    float angle = std::atan2(m_velocity.y, m_velocity.x) * 180.0f / 3.14159265f;
+    if (angle < 0)
+    {
+        angle += 360.0f;
+    }
+    m_enemySprite.setRotation(angle - 90);
+
+    /*if (detectPlayer(playerPosition))
+    {
+        m_coneOfVision.setFillColor(sf::Color(255, 0, 0, 200));
+    }
+    else
+    {
+        m_coneOfVision.setFillColor(sf::Color(0, 0, 0, 100));
+    }*/
 }
 
 void EnemyBase::draw(sf::RenderWindow& m_window)
@@ -27,6 +43,30 @@ void EnemyBase::draw(sf::RenderWindow& m_window)
     m_window.draw(m_enemySprite);
     m_window.draw(m_enemyTypeText);
 }
+
+//bool EnemyBase::detectPlayer(sf::Vector2f playerPosition)
+//{
+//    sf::Vector2f m_playerPosition = m_player.getPosition();
+//    sf::Vector2f toPlayer = playerPosition - m_enemySprite.getPosition();
+//
+//    float angleToPlayer = std::atan2(toPlayer.y, toPlayer.x) * 180.0f / 3.14159265f;
+//
+//    if (angleToPlayer < 0)
+//    {
+//        angleToPlayer += 360.0f;
+//    }
+//
+//    float angleDifference = std::abs(angleToPlayer - m_enemySprite.getRotation());
+//    
+//    if (angleDifference <= m_visionAngle / 2.0f)
+//    {
+//        return true;
+//    }
+//    else
+//    {
+//        return false;
+//    }
+//}
 
 void EnemyBase::setupEnemy()
 {
@@ -77,8 +117,8 @@ void EnemyBase::coneOfVision()
     m_coneOfVision.setRotation(m_enemySprite.getRotation() + 90);
 
     sf::Vector2f p1(0.0f, 0.0f); // Origin
-    sf::Vector2f p2(150.0f, -50.0f); //width
-    sf::Vector2f p3(150.0f, 50.0f); //width
+    sf::Vector2f p2(200.0f, -m_visionAngle); //width
+    sf::Vector2f p3(200.0f, m_visionAngle); //width
 
     m_coneOfVision.setPoint(0, p1);
     m_coneOfVision.setPoint(1, p2);

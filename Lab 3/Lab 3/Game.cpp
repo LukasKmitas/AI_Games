@@ -90,30 +90,32 @@ void Game::update(sf::Time t_deltaTime)
 	sf::Vector2f playerPosition = m_player.getPosition();
 	if(m_enemyStates[0])
 	{
-		m_enemyWander.update(t_deltaTime);
+		m_enemyWander.update(t_deltaTime, playerPosition);
 	}
 
 	if (m_enemyStates[1])
 	{
-		m_enemySeek.update(t_deltaTime);
+		m_enemySeek.update(t_deltaTime, playerPosition);
 		m_enemySeek.dynamicSeek(playerPosition);
 	}
 
 	if (m_enemyStates[2])
 	{
-		m_enemyArriveFast.update(t_deltaTime);
+		m_enemyArriveFast.update(t_deltaTime, playerPosition);
 		m_enemyArriveFast.dynamicArrive(playerPosition);
 	}
 
 	if (m_enemyStates[3])
 	{
-		m_enemyArriveSlow.update(t_deltaTime);
+		m_enemyArriveSlow.update(t_deltaTime, playerPosition);
 		m_enemyArriveSlow.dynamicArrive(playerPosition);
 	}
 
 	if (m_enemyStates[4])
 	{
-		m_enemyPursue.update(t_deltaTime);
+		sf::Vector2f futurePlayerPosition = m_player.getPosition() + (m_player.getVelocity() * predictTime);
+		m_enemyPursue.update(t_deltaTime, playerPosition);
+		m_enemyPursue.pursue(futurePlayerPosition);
 	}
 }
 

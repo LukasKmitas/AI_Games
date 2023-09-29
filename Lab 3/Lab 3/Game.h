@@ -47,6 +47,9 @@ private:
 	sf::Texture m_BackgroundTexture; 
 	sf::Sprite m_BackgroundSprite;
 
+	float predictTime = 1.0f;
+	float maxTimePrediction = 2.0f;
+
 	bool m_exitGame;
 
 };

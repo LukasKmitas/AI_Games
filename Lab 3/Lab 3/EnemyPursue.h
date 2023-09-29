@@ -12,7 +12,7 @@ public:
     EnemyPursue();
     ~EnemyPursue();
 
-    void update(sf::Time t_deltaTime);
+    void update(sf::Time t_deltaTime, sf::Vector2f& playerPosition);
     void draw(sf::RenderWindow& m_window);
 
     void pursue(sf::Vector2f targetPosition);

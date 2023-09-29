@@ -5,6 +5,7 @@ Player::Player()
 {
 	setupPlayer();
     setupConeOfVision();
+
 }
 
 Player::~Player()
@@ -59,8 +60,8 @@ sf::Vector2f Player::getVelocity() const
 
 bool Player::detectEnemy()
 {
-    sf::Vector2f direction = sf::Vector2f(std::cos(toRadians(m_playerSprite.getRotation() - 90)),
-        std::sin(toRadians(m_playerSprite.getRotation() - 90)));
+    /*sf::Vector2f direction = sf::Vector2f(std::cos(toRadians(m_playerSprite.getRotation() - 90)),
+        std::sin(toRadians(m_playerSprite.getRotation() - 90)));*/
 
     //for (const auto& enemy : m_enemies) 
     //{

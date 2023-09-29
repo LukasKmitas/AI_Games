@@ -12,7 +12,7 @@ public:
     EnemyArriveFast();
     ~EnemyArriveFast();
 
-    void update(sf::Time t_deltaTime);
+    void update(sf::Time t_deltaTime, sf::Vector2f& playerPosition);
     void draw(sf::RenderWindow& m_window);
 
     void dynamicArrive(sf::Vector2f targetPosition);

@@ -14,7 +14,7 @@ EnemyWander::~EnemyWander()
 {
 }
 
-void EnemyWander::update(sf::Time t_deltaTime)
+void EnemyWander::update(sf::Time t_deltaTime, sf::Vector2f& playerPosition)
 {
     SteeringOutput steering = getSteering();
 
@@ -29,7 +29,7 @@ void EnemyWander::update(sf::Time t_deltaTime)
 
     dynamicWander();
 
-    EnemyBase::update(t_deltaTime);
+    EnemyBase::update(t_deltaTime, playerPosition);
 }
 
 void EnemyWander::draw(sf::RenderWindow& m_window)
@@ -57,7 +57,9 @@ SteeringOutput EnemyWander::getSteering()
     desiredVelocity = normalize(desiredVelocity);
     steering.linear = desiredVelocity * EnemyWander::m_maxAcceleration;
     
-    steering.angular = 0;
+    sf::Vector2f direction = steering.linear;
+    float angle = atan2(direction.y, direction.x) * 180 / 3.14159265;
+    steering.angular = angle;
 
     return steering;
 }

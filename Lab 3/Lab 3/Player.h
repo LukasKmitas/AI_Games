@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "ScreenSize.h"
+#include <vector>
 
 class Player
 {
@@ -18,6 +19,7 @@ public:
     bool detectEnemy();
 
 private:
+    std::vector<sf::Vector2f> m_enemyPositions;
 
     void setupPlayer();
     void setupConeOfVision();;

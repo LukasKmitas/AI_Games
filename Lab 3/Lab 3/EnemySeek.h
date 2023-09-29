@@ -14,10 +14,12 @@ public:
     EnemySeek();
     ~EnemySeek();
 
-    void update(sf::Time t_deltaTime) override;
+    void update(sf::Time t_deltaTime, sf::Vector2f& playerPosition) override;
     void draw(sf::RenderWindow& m_window) override;
 
     void dynamicSeek(sf::Vector2f targetPosition);
+
+    bool detectPlayer(sf::Vector2f playerPosition);
 
     SteeringOutput getSteering(sf::Vector2f targetPosition);
 

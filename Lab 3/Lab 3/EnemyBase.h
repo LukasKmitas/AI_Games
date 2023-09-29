@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "ScreenSize.h"
+#include "Player.h"
 
 struct SteeringOutput 
 {
@@ -14,11 +15,14 @@ public:
 
 	virtual ~EnemyBase() = default;
 
-	virtual void update(sf::Time t_deltaTime) = 0;
+	virtual void update(sf::Time t_deltaTime, sf::Vector2f& playerPosition) = 0;
 	virtual void draw(sf::RenderWindow& m_window) = 0;
 
-
+	
 protected:
+	Player m_player;
+
+	//bool detectPlayer(sf::Vector2f playerPosition);
 
 	void setupEnemy();
 	void wrapAround();
@@ -47,6 +51,9 @@ protected:
 	float m_orientation = 0;
 	float m_coneRotation = 0.0f;
 	float m_maxAcceleration = 100.0f;
+	
+	float m_visionAngle = 50.0f;
 
+	bool m_playerDetected = false;
 };
 
