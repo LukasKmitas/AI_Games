@@ -13,11 +13,14 @@ public:
     void draw(sf::RenderWindow& m_window);
 
     sf::Vector2f getPosition() const;
+    sf::Vector2f getVelocity() const;
+
+    bool detectEnemy();
 
 private:
 
     void setupPlayer();
-    void setupConeOfVision();
+    void setupConeOfVision();;
 
     void movement();
     void wrapAround();
@@ -38,12 +41,16 @@ private:
 
     float m_acceleration = 10.0f;
     float m_deceleration = 20.0f;
-    float m_maxAceleration = 30.0f;
+    float m_maxAceleration = 200.0f;
     float m_speed = 150.0f;
     float m_maxSpeed = 200.0f;
     float m_turnSpeed = 10.0f;
     float m_rotationSpeed = 3.0f;
     float m_coneRotation = 0.0f;
+
+    bool m_enemyDetected = false;
+    float detectionDistanceThreshold = 150.0f; 
+    float detectionAngleThreshold = 50.0f;
 
 };
 

@@ -7,6 +7,8 @@ Game::Game() :
 {
 	//setupFontAndText();
 	//setupSprite();
+
+	m_enemyStates.resize(5, true);
 }
 
 Game::~Game()
@@ -55,8 +57,26 @@ void Game::processKeys(sf::Event t_event)
 	{
 		m_exitGame = true;
 	}
-
-	
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+	{
+		m_enemyStates[0] = !m_enemyStates[0];
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+	{
+		m_enemyStates[1] = !m_enemyStates[1];
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+	{
+		m_enemyStates[2] = !m_enemyStates[2];
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
+	{
+		m_enemyStates[3] = !m_enemyStates[3];
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5))
+	{
+		m_enemyStates[4] = !m_enemyStates[4];
+	}
 }
 
 void Game::update(sf::Time t_deltaTime)
@@ -65,10 +85,36 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		m_window.close();
 	}
+
 	m_player.update(t_deltaTime);
+	sf::Vector2f playerPosition = m_player.getPosition();
+	if(m_enemyStates[0])
+	{
+		m_enemyWander.update(t_deltaTime);
+	}
 
+	if (m_enemyStates[1])
+	{
+		m_enemySeek.update(t_deltaTime);
+		m_enemySeek.dynamicSeek(playerPosition);
+	}
 
-	m_enemy.update(t_deltaTime);
+	if (m_enemyStates[2])
+	{
+		m_enemyArriveFast.update(t_deltaTime);
+		m_enemyArriveFast.dynamicArrive(playerPosition);
+	}
+
+	if (m_enemyStates[3])
+	{
+		m_enemyArriveSlow.update(t_deltaTime);
+		m_enemyArriveSlow.dynamicArrive(playerPosition);
+	}
+
+	if (m_enemyStates[4])
+	{
+		m_enemyPursue.update(t_deltaTime);
+	}
 }
 
 void Game::render()
@@ -79,7 +125,31 @@ void Game::render()
 	m_window.draw(m_BackgroundSprite);
 
 	m_player.draw(m_window);
-	m_enemy.draw(m_window);
+
+	if (m_enemyStates[0])
+	{
+		m_enemyWander.draw(m_window);
+	}
+
+	if (m_enemyStates[1])
+	{
+		m_enemySeek.draw(m_window);
+	}
+
+	if (m_enemyStates[2])
+	{
+		m_enemyArriveFast.draw(m_window);
+	}
+
+	if (m_enemyStates[3])
+	{
+		m_enemyArriveSlow.draw(m_window);
+	}
+
+	if (m_enemyStates[4])
+	{
+		m_enemyPursue.draw(m_window);
+	}
 
 	m_window.display();
 }

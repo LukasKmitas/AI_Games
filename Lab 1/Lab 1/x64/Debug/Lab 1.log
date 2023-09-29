@@ -1,2 +1,14 @@
-﻿  Game.cpp
-  Lab 1.vcxproj -> C:\Users\labuser\Desktop\Ai Games - Oisin\AI_Games\Lab 1\x64\Debug\Lab 1.exe
+﻿  Alien2.cpp
+E:\Program Files E\Year 4\Ai Games - Oisin\AI_Games\Lab 1\Lab 1\Alien2.cpp(46,48): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+E:\Program Files E\Year 4\Ai Games - Oisin\AI_Games\Lab 1\Lab 1\Alien2.cpp(55,80): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+  Game.cpp
+  Generating Code...
+  Lab 1.vcxproj -> E:\Program Files E\Year 4\Ai Games - Oisin\AI_Games\Lab 1\x64\Debug\Lab 1.exe

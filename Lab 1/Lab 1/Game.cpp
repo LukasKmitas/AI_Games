@@ -66,8 +66,8 @@ void Game::update(sf::Time t_deltaTime)
 	}
 	m_player.update(t_deltaTime);
 	m_alien.update(t_deltaTime);
-	//m_alien2.update(t_deltaTime);
-	//m_alien3.update(t_deltaTime);
+	m_alien2.update(t_deltaTime);
+	m_alien3.update(t_deltaTime);
 
 	sf::Vector2f playerPosition = m_player.getPosition();
 

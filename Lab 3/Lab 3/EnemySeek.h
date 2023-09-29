@@ -1,39 +1,30 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "Player.h"
 #include "ScreenSize.h"
+#include "EnemyBase.h"
+#include "Player.h"
 
-class EnemySeek
+class EnemySeek : public EnemyBase
 {
 
 public:
+    Player m_player;
+
     EnemySeek();
     ~EnemySeek();
 
-    Player m_player;
+    void update(sf::Time t_deltaTime) override;
+    void draw(sf::RenderWindow& m_window) override;
 
-    void update(sf::Time t_deltaTime);
-    void draw(sf::RenderWindow& m_window);
+    void dynamicSeek(sf::Vector2f targetPosition);
+
+    SteeringOutput getSteering(sf::Vector2f targetPosition);
 
 private:
 
-    void setupEnemy();
-    void wrapAround();
-
-    void kinematicSeek(sf::Vector2f targetPosition);
-
-    float getNewOrientation(float m_currentOrientation, sf::Vector2f m_velocity);
-    sf::Vector2f normalize(sf::Vector2f vector);
-    float length(sf::Vector2f vector);
-
-    sf::Texture m_enemyTexture;
-    sf::Sprite m_enemySprite;
-
-    sf::Vector2f m_velocity;
-    float m_speed = 200.0f;
+    float m_speed = 100.0f;
     float m_maxRotation = 45.0f;
-    float m_orientation = 0;
     float m_radius = 80.0f;
     float m_timeToTarget = 2.0f;
 

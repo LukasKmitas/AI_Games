@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyArriveFast.cpp" />
+    <ClCompile Include="EnemyArriveSlow.cpp" />
+    <ClCompile Include="EnemyBase.cpp" />
+    <ClCompile Include="EnemyPursue.cpp" />
     <ClCompile Include="EnemyWander.cpp" />
     <ClCompile Include="EnemySeek.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -26,6 +30,10 @@
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyArriveFast.h" />
+    <ClInclude Include="EnemyArriveSlow.h" />
+    <ClInclude Include="EnemyBase.h" />
+    <ClInclude Include="EnemyPursue.h" />
     <ClInclude Include="EnemyWander.h" />
     <ClInclude Include="EnemySeek.h" />
     <ClInclude Include="Game.h" />

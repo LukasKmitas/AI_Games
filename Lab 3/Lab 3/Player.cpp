@@ -24,11 +24,20 @@ void Player::update(sf::Time t_deltaTime)
         std::sin(toRadians(m_playerSprite.getRotation() - 90)));
 
     m_directionLine[0].position = m_playerSprite.getPosition();
-    m_directionLine[1].position = m_playerSprite.getPosition() - direction * 100.0f;
+    m_directionLine[1].position = m_playerSprite.getPosition() - direction * 200.0f;
 
     m_coneRotation = m_coneOfVision.getRotation();
     m_coneOfVision.rotate(m_coneRotation);
     coneOfVision();
+
+    if (detectEnemy()) 
+    {
+        m_coneOfVision.setFillColor(sf::Color(255, 0, 0, 100));
+    }
+    else 
+    {
+        m_coneOfVision.setFillColor(sf::Color(0, 0, 0, 100));
+    }
 }
 
 void Player::draw(sf::RenderWindow& m_window)
@@ -42,6 +51,41 @@ sf::Vector2f Player::getPosition() const
 {
 	return m_playerSprite.getPosition();
 }
+
+sf::Vector2f Player::getVelocity() const
+{
+    return m_velocity;
+}
+
+bool Player::detectEnemy()
+{
+    sf::Vector2f direction = sf::Vector2f(std::cos(toRadians(m_playerSprite.getRotation() - 90)),
+        std::sin(toRadians(m_playerSprite.getRotation() - 90)));
+
+    //for (const auto& enemy : m_enemies) 
+    //{
+    //    sf::Vector2f enemyPosition = enemy->getPosition(); // Use polymorphism to call getPosition
+    //    sf::Vector2f playerToEnemy = enemyPosition - m_playerSprite.getPosition();
+
+    //    float distance = length(playerToEnemy);
+    //    // Calculate the dot product between playerToEnemy and the normalized direction vector of the cone
+    //    float dotProduct = playerToEnemy.x * direction.x + playerToEnemy.y * direction.y;
+
+    //    // Calculate the angle between playerToEnemy and the cone direction
+    //    float angle = acos(dotProduct);
+
+    //    // Adjust the distance and angle thresholds based on your game
+    //    if (distance < detectionDistanceThreshold && angle < detectionAngleThreshold) 
+    //    {
+    //        return true; // Enemy detected
+    //    }
+    //}
+
+    return false;
+}
+
+
+
 
 /// <summary>
 /// Sets up the player sprite/properties
@@ -143,10 +187,9 @@ void Player::coneOfVision()
     m_coneOfVision.setRotation(m_playerSprite.getRotation() + 90);
 
     sf::Vector2f p1(0.0f, 0.0f); // Origin
-    sf::Vector2f p2(100.0f, -50.0f); //width
-    sf::Vector2f p3(100.0f, 50.0f); //width
+    sf::Vector2f p2(200.0f, -50.0f); //width
+    sf::Vector2f p3(200.0f, 50.0f); //width
 
-    // Set the points of the cone shape
     m_coneOfVision.setPoint(0, p1);
     m_coneOfVision.setPoint(1, p2);
     m_coneOfVision.setPoint(2, p3);

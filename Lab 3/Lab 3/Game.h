@@ -6,7 +6,11 @@
 
 #include "Player.h"
 
-#include "Enemy.h"
+#include "EnemyWander.h"
+#include "EnemySeek.h"
+#include "EnemyArriveFast.h"
+#include "EnemyArriveSlow.h"
+#include "EnemyPursue.h"
 
 class Game
 {
@@ -18,8 +22,14 @@ public:
 
 private:
 
+	std::vector<bool> m_enemyStates;
+
 	Player m_player;
-	Enemy m_enemy;
+	EnemyWander m_enemyWander;
+	EnemySeek m_enemySeek;
+	EnemyArriveFast m_enemyArriveFast;
+	EnemyArriveSlow m_enemyArriveSlow;
+	EnemyPursue m_enemyPursue;
 
 	void processEvents();
 	void processKeys(sf::Event t_event);
