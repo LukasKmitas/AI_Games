@@ -23,7 +23,6 @@ private:
 
     float m_speed = 60.0f;
     float maxSpeed = 100.0f;
-    float m_maxRotation = 45.0f;
 
 };
 

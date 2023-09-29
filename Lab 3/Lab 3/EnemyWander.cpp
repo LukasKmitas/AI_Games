@@ -37,6 +37,10 @@ void EnemyWander::draw(sf::RenderWindow& m_window)
     EnemyBase::draw(m_window);
 }
 
+/// <summary>
+/// Dynamic Wander
+/// it makes the enemy wander 
+/// </summary>
 void EnemyWander::dynamicWander()
 {
     m_velocity = sf::Vector2f{ 2000, 400 } - m_enemySprite.getPosition();
@@ -49,6 +53,10 @@ void EnemyWander::dynamicWander()
     m_velocity = sf::Vector2f(-sin(m_orientation), cos(m_orientation)) * m_speed;
 }
 
+/// <summary>
+/// gets a steering 
+/// </summary>
+/// <returns></returns>
 SteeringOutput EnemyWander::getSteering()
 {
     SteeringOutput steering;

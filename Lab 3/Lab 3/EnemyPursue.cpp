@@ -24,6 +24,11 @@ void EnemyPursue::draw(sf::RenderWindow& m_window)
 	EnemyBase::draw(m_window);
 }
 
+/// <summary>
+/// A pursue to predict the players future position
+/// to go to that position
+/// </summary>
+/// <param name="futurePlayerPosition"></param>
 void EnemyPursue::pursue(sf::Vector2f futurePlayerPosition)
 {
     sf::Vector2f direction = futurePlayerPosition - m_enemySprite.getPosition();
@@ -57,7 +62,11 @@ void EnemyPursue::pursue(sf::Vector2f futurePlayerPosition)
     m_orientation = getNewOrientation(m_orientation, m_velocity);
 }
 
-
+/// <summary>
+/// Gets the steering towards target
+/// </summary>
+/// <param name="targetPosition"></param>
+/// <returns></returns>
 SteeringOutput EnemyPursue::getSteering(sf::Vector2f targetPosition)
 {
     SteeringOutput steering;

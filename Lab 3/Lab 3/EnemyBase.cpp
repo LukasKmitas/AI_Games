@@ -20,7 +20,7 @@ void EnemyBase::update(sf::Time t_deltaTime, sf::Vector2f& playerPosition)
 
     m_enemyTypeText.setPosition(m_enemySprite.getPosition().x + 50, m_enemySprite.getPosition().y - 100);
 
-    float angle = std::atan2(m_velocity.y, m_velocity.x) * 180.0f / 3.14159265f;
+    float angle = std::atan2(m_velocity.y, m_velocity.x) * 180.0f / PI;
     if (angle < 0)
     {
         angle += 360.0f;
@@ -51,6 +51,9 @@ void EnemyBase::setupEnemy()
     m_enemySprite.setScale(0.3, 0.3);
 }
 
+/// <summary>
+/// To make the enemy appear other side of the screen
+/// </summary>
 void EnemyBase::wrapAround()
 {
     if (m_enemySprite.getPosition().x < 0)
@@ -95,6 +98,11 @@ void EnemyBase::coneOfVision()
     m_coneOfVision.setPoint(2, p3);
 }
 
+/// <summary>
+/// To detect the player if the player is within the distance of the enemy
+/// And if its within a certain angle
+/// </summary>
+/// <param name="playerPosition"> position </param>
 void EnemyBase::detectPlayer(sf::Vector2f playerPosition)
 {
     sf::Vector2f vectorToPlayer = playerPosition - m_enemySprite.getPosition();

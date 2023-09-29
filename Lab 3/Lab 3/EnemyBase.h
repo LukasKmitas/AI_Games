@@ -9,6 +9,9 @@ struct SteeringOutput
 	float angular;
 };
 
+/// <summary>
+/// Used for all enemies for basic properties that all will share
+/// </summary>
 class EnemyBase
 {
 public:

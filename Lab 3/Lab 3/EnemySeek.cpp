@@ -29,6 +29,11 @@ void EnemySeek::draw(sf::RenderWindow& m_window)
 	EnemyBase::draw(m_window);
 }
 
+/// <summary>
+/// Dynamic Seek
+/// It follows the player 
+/// </summary>
+/// <param name="targetPosition"></param>
 void EnemySeek::dynamicSeek(sf::Vector2f targetPosition)
 {
 	m_velocity = targetPosition - m_enemySprite.getPosition();
@@ -38,6 +43,12 @@ void EnemySeek::dynamicSeek(sf::Vector2f targetPosition)
 	m_orientation = getNewOrientation(m_orientation, m_velocity);
 }
 
+/// <summary>
+/// Gets the steering
+/// to steer towards the target
+/// </summary>
+/// <param name="targetPosition"></param>
+/// <returns></returns>
 SteeringOutput EnemySeek::getSteering(sf::Vector2f targetPosition)
 {
 	SteeringOutput steering;

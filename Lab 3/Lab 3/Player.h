@@ -16,8 +16,6 @@ public:
     sf::Vector2f getPosition() const;
     sf::Vector2f getVelocity() const;
 
-    bool detectEnemy();
-
 private:
     std::vector<sf::Vector2f> m_enemyPositions;
 

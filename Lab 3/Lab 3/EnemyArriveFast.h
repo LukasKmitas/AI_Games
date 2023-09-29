@@ -22,7 +22,6 @@ public:
 private:
 
     float m_speed = 120.0f;
-    float m_timeToTarget = 2.0f;
 
 };
 

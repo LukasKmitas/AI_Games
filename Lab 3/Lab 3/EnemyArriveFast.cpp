@@ -30,6 +30,11 @@ void EnemyArriveFast::draw(sf::RenderWindow& m_window)
 	EnemyBase::draw(m_window);
 }
 
+/// <summary>
+/// To make a dynamic Arrive 
+/// So it follows the player and it slows and stop within a certain radius
+/// </summary>
+/// <param name="targetPosition"></param>
 void EnemyArriveFast::dynamicArrive(sf::Vector2f targetPosition)
 {
 	m_velocity = targetPosition - m_enemySprite.getPosition();
@@ -53,6 +58,11 @@ void EnemyArriveFast::dynamicArrive(sf::Vector2f targetPosition)
 	m_orientation = getNewOrientation(m_orientation, m_velocity);
 }
 
+/// <summary>
+/// Gets the steering 
+/// </summary>
+/// <param name="targetPosition"></param>
+/// <returns></returns>
 SteeringOutput EnemyArriveFast::getSteering(sf::Vector2f targetPosition)
 {
     SteeringOutput steering;
