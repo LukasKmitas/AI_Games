@@ -22,13 +22,13 @@ public:
 protected:
 	Player m_player;
 
-	//bool detectPlayer(sf::Vector2f playerPosition);
-
 	void setupEnemy();
 	void wrapAround();
 
 	void setupConeOfVision();
 	void coneOfVision();
+
+	void detectPlayer(sf::Vector2f playerPosition);
 
 	void setupFontAndText();
 
@@ -51,8 +51,17 @@ protected:
 	float m_orientation = 0;
 	float m_coneRotation = 0.0f;
 	float m_maxAcceleration = 100.0f;
+	float m_radius = 100.0f;
+	float m_maxRotation = 45.0f;
+
+	float predictTime = 1.0f;
+	float maxTimePrediction = 2.0f;
+	float m_timeToTarget = 2.0f;
 	
 	float m_visionAngle = 50.0f;
+	float m_visionRange = 200.0f;
+
+	const float PI = 3.14159265;
 
 	bool m_playerDetected = false;
 };

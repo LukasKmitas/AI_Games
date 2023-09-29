@@ -19,8 +19,6 @@ public:
 
     void dynamicSeek(sf::Vector2f targetPosition);
 
-    bool detectPlayer(sf::Vector2f playerPosition);
-
     SteeringOutput getSteering(sf::Vector2f targetPosition);
 
 private:
@@ -28,7 +26,6 @@ private:
     float m_speed = 100.0f;
     float m_maxRotation = 45.0f;
     float m_radius = 80.0f;
-    float m_timeToTarget = 2.0f;
 
 };
 

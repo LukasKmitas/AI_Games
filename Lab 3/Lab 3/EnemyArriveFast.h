@@ -22,8 +22,6 @@ public:
 private:
 
     float m_speed = 120.0f;
-    float m_maxRotation = 45.0f;
-    float m_radius = 80.0f;
     float m_timeToTarget = 2.0f;
 
 };
