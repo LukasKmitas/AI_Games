@@ -210,25 +210,25 @@ void Boid::run(vector <Boid>& v)
 //breaking the laws.
 void Boid::flock(vector<Boid>& v) 
 {
-	Pvector sep, ali, coh;
-	if (clock.getElapsedTime().asSeconds() > 0.05)
-	{
-		sep = Separation(v);
-		ali = Alignment(v);
-		coh = Cohesion(v);
+	//Pvector sep, ali, coh;
+	//if (clock.getElapsedTime().asSeconds() > 0.05)
+	//{
+	//	sep = Separation(v);
+	//	ali = Alignment(v);
+	//	coh = Cohesion(v);
 
-		// Arbitrarily weight these forces
-		sep.mulScalar(1.5);
-		ali.mulScalar(1.0); // Might need to alter weights for different characteristics
-		coh.mulScalar(1.0);
-		// Add the force vectors to acceleration
-		applyForce(sep);
-		applyForce(ali);
-		applyForce(coh);
-		clock.restart();
-	}
+	//	// Arbitrarily weight these forces
+	//	sep.mulScalar(1.5);
+	//	ali.mulScalar(1.0); // Might need to alter weights for different characteristics
+	//	coh.mulScalar(1.0);
+	//	// Add the force vectors to acceleration
+	//	applyForce(sep);
+	//	applyForce(ali);
+	//	applyForce(coh);
+	//	clock.restart();
+	//}
 
-	/*Pvector sep = Separation(v);
+	Pvector sep = Separation(v);
 	Pvector ali = Alignment(v);
 	Pvector coh = Cohesion(v);
 	// Arbitrarily weight these forces
@@ -238,7 +238,7 @@ void Boid::flock(vector<Boid>& v)
 	// Add the force vectors to acceleration
 	applyForce(sep);
 	applyForce(ali);
-	applyForce(coh);*/
+	applyForce(coh);
 }
 
 // Checks if boids go out of the window and if so, wraps them around to the other side.
@@ -273,6 +273,11 @@ void Boid::swarm(vector <Boid>& v)
 	float B = 1.1f;
 	float M = 1.01f;
 	float N = 1.00f;
+
+	/*float A = 100.0f;
+	float B = 7000.0f;
+	float M = 1.0f;
+	float N = 2.0f;*/
 
 	Pvector sum(0, 0);
 

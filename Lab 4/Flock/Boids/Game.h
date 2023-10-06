@@ -51,7 +51,7 @@ private:
 	Flock flock;
 	vector<sf::CircleShape> shapes;
 
-	const int MAX_BOIDS = 700;
+	const int MAX_BOIDS = 300;
 
 	int gridSizeX;
 	int gridSizeY;

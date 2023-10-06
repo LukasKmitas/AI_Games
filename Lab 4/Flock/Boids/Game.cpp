@@ -36,8 +36,8 @@ Game::Game()
 
 	for (int i = 0; i < MAX_BOIDS; i++) //Number of boids is hardcoded for testing pusposes.
 	{
-		Boid b(rand() % window_width, rand() % window_height); //Starts the boid with a random position in the window.
-		//Boid b(window_width / 3, window_height / 3); //Starts all boids in the center of the screen
+		//Boid b(rand() % window_width, rand() % window_height); //Starts the boid with a random position in the window.
+		Boid b(window_width / 3, window_height / 3); //Starts all boids in the center of the screen
 		sf::CircleShape shape(8, 3); //Shape with a radius of 10 and 3 points (Making it a triangle)
 
 		//Changing the Visual Properties of the shape
@@ -180,13 +180,13 @@ void Game::update(sf::Time t_deltaTime)
 	
 	updateGrid();
 
-	for (int i = 0; i < flock.getSize(); ++i)
+	/*for (int i = 0; i < flock.getSize(); ++i)
 	{
 		Boid& boid = flock.getBoid(i);
 		std::vector<Boid>& neighbors = getNeighbors(boid);
 		boid.flock(neighbors);
 
-	}
+	}*/
 
 	//Draws all of the Boids out, and applies functions that are needed to update.
 	for (int i = 0; i < shapes.size(); i++)

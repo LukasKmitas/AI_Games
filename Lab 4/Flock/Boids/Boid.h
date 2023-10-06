@@ -37,7 +37,7 @@ public:
 	Pvector acceleration;
 	float maxSpeed;
 	float maxForce;
-	int neighbourDistance = 30;
+	int neighbourDistance = 50;
 
 	Boid() {}
 	Boid(float x, float y)
