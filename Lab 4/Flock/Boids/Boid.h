@@ -2,6 +2,8 @@
 #include <vector>
 #include <stdlib.h>
 #include <iostream>
+#include <random>
+#include "SFML/Graphics.hpp"
 
 using namespace std;
 
@@ -35,13 +37,17 @@ public:
 	Pvector acceleration;
 	float maxSpeed;
 	float maxForce;
-	int neighbourDistance = 50;
+	int neighbourDistance = 30;
 
 	Boid() {}
 	Boid(float x, float y)
 	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<float> dist(-2.0f, 2.0f); // Adjust the range as needed
+
 		acceleration = Pvector(0, 0);
-		velocity = Pvector(rand()%3-2, rand()%3-2); // Allows for range of -2 -> 2
+		velocity = Pvector(dist(gen), dist(gen)/*rand()%3-2, rand()%3-2*/); // Allows for range of -2 -> 2
 		location = Pvector(x, y);
 		maxSpeed = 3.5;
 		maxForce = 0.5;
@@ -61,6 +67,13 @@ public:
 		acceleration = Pvector(0, 0);
 		location = Pvector(x, y);
 	}
+
+	bool operator==(const Boid& other) const {
+		// Define your equality comparison logic here.
+		// You can compare properties like location, velocity, or other relevant attributes.
+		return (location == other.location && velocity == other.velocity);
+	}
+
 /* 
 Destructors are commented out for now. g++ throws errors if they are included.
    If compiling on Visual Studio, however, no errors are thrown.
@@ -83,6 +96,7 @@ Destructors are commented out for now. g++ throws errors if they are included.
 	void borders();
 	float angle(Pvector& v);
 	void swarm(vector <Boid>& v);
+	sf::Clock clock;
 };
 
 #endif

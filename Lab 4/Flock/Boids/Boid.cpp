@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include <math.h>
-#include "SFML/Graphics.hpp"
 #include "Boid.h"
 
 // Global Variables for borders()
@@ -105,7 +104,7 @@ Pvector Boid::Alignment(vector<Boid>& Boids)
 	// algorithm
 	//if (predator == true)
 	//	return Pvector(0,0);
-//	float neighbordist = 50;
+	//	float neighbordist = 50;
 
 	Pvector sum(0, 0);	
 	int count = 0;
@@ -211,7 +210,25 @@ void Boid::run(vector <Boid>& v)
 //breaking the laws.
 void Boid::flock(vector<Boid>& v) 
 {
-	Pvector sep = Separation(v);
+	Pvector sep, ali, coh;
+	if (clock.getElapsedTime().asSeconds() > 0.05)
+	{
+		sep = Separation(v);
+		ali = Alignment(v);
+		coh = Cohesion(v);
+
+		// Arbitrarily weight these forces
+		sep.mulScalar(1.5);
+		ali.mulScalar(1.0); // Might need to alter weights for different characteristics
+		coh.mulScalar(1.0);
+		// Add the force vectors to acceleration
+		applyForce(sep);
+		applyForce(ali);
+		applyForce(coh);
+		clock.restart();
+	}
+
+	/*Pvector sep = Separation(v);
 	Pvector ali = Alignment(v);
 	Pvector coh = Cohesion(v);
 	// Arbitrarily weight these forces
@@ -221,7 +238,7 @@ void Boid::flock(vector<Boid>& v)
 	// Add the force vectors to acceleration
 	applyForce(sep);
 	applyForce(ali);
-	applyForce(coh);
+	applyForce(coh);*/
 }
 
 // Checks if boids go out of the window and if so, wraps them around to the other side.
@@ -251,11 +268,33 @@ void Boid::swarm(vector <Boid>& v)
 			R.normalise()
 			force = force + R*U
 */
-	Pvector	R;
+// Your code here..
+	float A = 1.1f;
+	float B = 1.1f;
+	float M = 1.01f;
+	float N = 1.00f;
+
 	Pvector sum(0, 0);
 
-// Your code here..
+	for (int i = 0; i < v.size(); i++)
+	{
+		// Skip the current boid itself
+		if (&v[i] != this)
+		{
+			// Calculate the vector R from the current boid to the other boid
+			Pvector R(0, 0);
+			R = location - v[i].location;
+			float D = R.magnitude();
 
+			if (D > 0)
+			{
+				float U = -A / pow(D, N) + B / pow(D, M);
+				R.normalize();
+				R = R * U;
+				sum.addVector(R);
+			}
+		}
+	}
 	applyForce(sum);
 	update();
 	borders();

@@ -9,11 +9,13 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include <string>
+
 using namespace std;
 
 class Game
 {
 public:
+
 	Game();
 	~Game();
 	/// <summary>
@@ -49,6 +51,17 @@ private:
 	Flock flock;
 	vector<sf::CircleShape> shapes;
 
+	const int MAX_BOIDS = 700;
+
+	int gridSizeX;
+	int gridSizeY;
+	std::vector<std::vector<std::vector<Boid>>> grid;
+	float interactionRange;
+
+	void initializeGrid();
+	void updateGrid();
+	void drawGridLines(sf::RenderWindow& window);
+	std::vector<Boid>& getNeighbors(Boid& boid);
 };
 
 #endif // !GAME_HPP
