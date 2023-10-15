@@ -32,6 +32,7 @@ class Boid
 {
 public:
 	bool predator;
+	bool isLeader = false;
 	Pvector location;
 	Pvector velocity;
 	Pvector acceleration;
@@ -91,12 +92,12 @@ Destructors are commented out for now. g++ throws errors if they are included.
 	//Functions involving SFML and visualisation linking
 	Pvector seek(Pvector& v);
 	void run(vector <Boid>& v);
-	void update();
+	void update(string formation);
 	void flock(vector <Boid>& v);
 	void borders();
 	float angle(Pvector& v);
 	void swarm(vector <Boid>& v);
-	sf::Clock clock;
+
 };
 
 #endif

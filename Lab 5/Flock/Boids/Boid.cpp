@@ -183,17 +183,35 @@ Pvector Boid::seek(Pvector& v)
 
 //Update modifies velocity, location, and resets acceleration with values that
 //are given by the three laws.
-void Boid::update()
+void Boid::update(string formation)
 {
-	//To make the slow down not as abrupt
-	acceleration.mulScalar(.4);
-	// Update velocity
-	velocity.addVector(acceleration);
-	// Limit speed
-	velocity.limit(maxSpeed);
-	location.addVector(velocity);
-	// Reset accelertion to 0 each cycle
-	acceleration.mulScalar(0);
+	if (formation == "formation")
+	{
+		if (isLeader)
+		{
+			location.addVector(velocity);
+		}
+		else
+		{
+			acceleration.mulScalar(.4);
+			velocity.addVector(acceleration);
+			velocity.limit(maxSpeed);
+			location.addVector(velocity);
+			acceleration.mulScalar(0);
+		}
+	}
+	else
+	{
+		//To make the slow down not as abrupt
+		acceleration.mulScalar(.4);
+		// Update velocity
+		velocity.addVector(acceleration);
+		// Limit speed
+		velocity.limit(maxSpeed);
+		location.addVector(velocity);
+		// Reset accelertion to 0 each cycle
+		acceleration.mulScalar(0);
+	}
 }
 
 //Run runs flock on the flock of boids for each boid.
@@ -202,7 +220,7 @@ void Boid::update()
 void Boid::run(vector <Boid>& v)
 {
 	flock(v);
-	update();
+	update("Flock");
 	borders();
 }
 
@@ -210,24 +228,6 @@ void Boid::run(vector <Boid>& v)
 //breaking the laws.
 void Boid::flock(vector<Boid>& v) 
 {
-	//Pvector sep, ali, coh;
-	//if (clock.getElapsedTime().asSeconds() > 0.05)
-	//{
-	//	sep = Separation(v);
-	//	ali = Alignment(v);
-	//	coh = Cohesion(v);
-
-	//	// Arbitrarily weight these forces
-	//	sep.mulScalar(1.5);
-	//	ali.mulScalar(1.0); // Might need to alter weights for different characteristics
-	//	coh.mulScalar(1.0);
-	//	// Add the force vectors to acceleration
-	//	applyForce(sep);
-	//	applyForce(ali);
-	//	applyForce(coh);
-	//	clock.restart();
-	//}
-
 	Pvector sep = Separation(v);
 	Pvector ali = Alignment(v);
 	Pvector coh = Cohesion(v);
@@ -261,23 +261,15 @@ float Boid::angle(Pvector& v)
 
 void Boid::swarm(vector <Boid>& v)
 {
-/*		Lenard-Jones Potential function
-			Vector R = me.position - you.position
-			Real D = R.magnitude()
-			Real U = -A / pow(D, N) + B / pow(D, M)
-			R.normalise()
-			force = force + R*U
-*/
-// Your code here..
-	float A = 1.1f;
+	/*float A = 1.1f;
 	float B = 1.1f;
 	float M = 1.01f;
-	float N = 1.00f;
+	float N = 1.00f;*/
 
-	/*float A = 100.0f;
-	float B = 7000.0f;
-	float M = 1.0f;
-	float N = 2.0f;*/
+	float A = 1.1f;
+	float B = 1.1f;
+	float M = 0.50f;
+	float N = 0.49f;
 
 	Pvector sum(0, 0);
 
@@ -301,6 +293,6 @@ void Boid::swarm(vector <Boid>& v)
 		}
 	}
 	applyForce(sum);
-	update();
+	update("Swarm");
 	borders();
 }

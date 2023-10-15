@@ -38,6 +38,10 @@ Game::Game()
 	{
 		//Boid b(rand() % window_width, rand() % window_height); //Starts the boid with a random position in the window.
 		Boid b(window_width / 3, window_height / 3); //Starts all boids in the center of the screen
+		/*if (i == leader)
+		{
+			b.isLeader = true;
+		}*/
 		sf::CircleShape shape(8, 3); //Shape with a radius of 10 and 3 points (Making it a triangle)
 
 		//Changing the Visual Properties of the shape
@@ -53,12 +57,6 @@ Game::Game()
 		flock.addBoid(b);
 		shapes.push_back(shape);
 	}
-
-	gridSizeX = window_width / 50;
-	gridSizeY = window_height / 30;
-	interactionRange = 50.0f;
-
-	initializeGrid();
 }
 
 /// <summary>
@@ -132,12 +130,33 @@ void Game::processKeys(sf::Event t_event)
 	{
 		m_exitGame = true;
 	}
+	else if (sf::Keyboard::Up == t_event.key.code)
+	{
+		leaderSpeedChange += 1.0f;
+	}
+	else if (sf::Keyboard::Down == t_event.key.code)
+	{
+		leaderSpeedChange -= 1.0f;
+	}
+	else if (sf::Keyboard::Left == t_event.key.code)
+	{
+		leaderDirectionChange -= 0.1f;
+	}
+	else if (sf::Keyboard::Right == t_event.key.code)
+	{
+		leaderDirectionChange += 0.1f;
+	}
+	else if (sf::Keyboard::Num1 == t_event.key.code)
+	{
+		action = "formation";
+	}
 	else if (sf::Keyboard::Space == t_event.key.code)
+	{
 		if (action == "flock")
 			action = "swarm";
 		else
 			action = "flock";
-
+	}
 }
 
 /// <summary>
@@ -177,16 +196,6 @@ void Game::update(sf::Time t_deltaTime)
 {
 	//Clears previous frames of visualization to not have clutter. (And simulate animation)
 	m_window.clear();
-	
-	updateGrid();
-
-	/*for (int i = 0; i < flock.getSize(); ++i)
-	{
-		Boid& boid = flock.getBoid(i);
-		std::vector<Boid>& neighbors = getNeighbors(boid);
-		boid.flock(neighbors);
-
-	}*/
 
 	//Draws all of the Boids out, and applies functions that are needed to update.
 	for (int i = 0; i < shapes.size(); i++)
@@ -205,9 +214,20 @@ void Game::update(sf::Time t_deltaTime)
 
 	//Applies the three rules to each boid in the flock and changes them accordingly.
 	if (action == "flock")
+	{
 		flock.flocking();
+		shapes[leader].setFillColor(sf::Color::Green);
+	}
+	else if (action == "formation")
+	{
+		flock.formation(leader, leaderSpeedChange, leaderDirectionChange);
+		shapes[leader].setFillColor(sf::Color::Red);
+	}
 	else
+	{
 		flock.swarming();
+		shapes[leader].setFillColor(sf::Color::Blue);
+	}
 
 	if (m_exitGame)
 	{
@@ -229,102 +249,6 @@ void Game::render()
 		m_window.draw(shapes[i]);
 	}
 
-	drawGridLines(m_window);
-
 	m_window.draw(m_actionMessage);
 	m_window.display();
 }
-
-void Game::initializeGrid()
-{
-	grid.resize(gridSizeX, std::vector<std::vector<Boid>>(gridSizeY));
-
-	for (int x = 0; x < gridSizeX; ++x)
-	{
-		for (int y = 0; y < gridSizeY; ++y)
-		{
-			grid[x][y].clear();
-		}
-	}
-}
-
-void Game::updateGrid()
-{
-	for (int x = 0; x < gridSizeX; ++x)
-	{
-		for (int y = 0; y < gridSizeY; ++y)
-		{
-			grid[x][y].clear();
-		}
-	}
-
-	for (int i = 0; i < flock.getSize(); ++i)
-	{
-		Boid& boid = flock.getBoid(i);
-		int gridX = static_cast<int>(boid.location.x / gridSizeX);
-		int gridY = static_cast<int>(boid.location.y / gridSizeY);
-
-		// Add the boid to the corresponding grid cell
-		grid[gridX][gridY].push_back(boid);
-	}
-}
-
-std::vector<Boid>& Game::getNeighbors(Boid& boid)
-{
-	int gridX = static_cast<int>(boid.location.x / gridSizeX);
-	int gridY = static_cast<int>(boid.location.y / gridSizeY);
-	std::vector<Boid>& neighbors = grid[gridX][gridY];
-
-	// Adjust the grid range based on interaction range
-	int range = static_cast<int>(interactionRange / gridSizeX);
-
-	// Iterate through neighboring grid cells
-	for (int dx = -range; dx <= range; ++dx)
-	{
-		for (int dy = -range; dy <= range; ++dy)
-		{
-			int neighborX = gridX + dx;
-			int neighborY = gridY + dy;
-
-			// Check if the neighboring cell is within the grid bounds
-			if (neighborX >= 0 && neighborX < gridSizeX &&
-				neighborY >= 0 && neighborY < gridSizeY)
-			{
-				// Append boids from neighboring cells to the result
-				neighbors.insert(neighbors.end(), grid[neighborX][neighborY].begin(), grid[neighborX][neighborY].end());
-			}
-		}
-	}
-
-	return neighbors;
-}
-
-void Game::drawGridLines(sf::RenderWindow& window)
-{
-	sf::Color gridColor(255, 255, 255, 100);
-
-	for (int x = 0; x < window_width; x += gridSizeX)
-	{
-		sf::Vertex line[] =
-		{
-			sf::Vertex(sf::Vector2f(static_cast<float>(x), 0), gridColor),
-			sf::Vertex(sf::Vector2f(static_cast<float>(x), static_cast<float>(window_height)), gridColor)
-		};
-
-		window.draw(line, 2, sf::Lines);
-	}
-	for (int y = 0; y < window_height; y += gridSizeY)
-	{
-		sf::Vertex line[] =
-		{
-			sf::Vertex(sf::Vector2f(0, static_cast<float>(y)), gridColor),
-			sf::Vertex(sf::Vector2f(static_cast<float>(window_width), static_cast<float>(y)), gridColor)
-		};
-
-		window.draw(line, 2, sf::Lines);
-	}
-}
-
-
-
-

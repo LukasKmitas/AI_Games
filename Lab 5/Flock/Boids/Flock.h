@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "Boid.h"
+#include "SFML/Graphics.hpp"
 
 using namespace std;
 
@@ -40,6 +41,7 @@ errors.
 	void addBoid(Boid b);
 	void flocking();
 	void swarming();
+	void formation(int fLeader, float leaderSpeedChange, float leaderDirectionChange);
 
 };
 

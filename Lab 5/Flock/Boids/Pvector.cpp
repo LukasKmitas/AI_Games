@@ -163,3 +163,8 @@ Pvector Pvector::copy(Pvector v)
 
 	return copy;
 }
+
+Pvector Pvector::operator+(const Pvector& other) const
+{
+	return Pvector(x + other.x, y + other.y);
+}

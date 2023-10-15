@@ -28,6 +28,10 @@ public:
 
 private:
 
+	//Create flock, vector of shapes, and initialize boids
+	Flock flock;
+	vector<sf::CircleShape> shapes;
+
 	void processEvents();
 	void processKeys(sf::Event t_event);
 	void processMouse(sf::Event t_event);
@@ -40,28 +44,17 @@ private:
 	sf::Font m_font;
 	sf::Text m_actionMessage; // text used for message on screen
 
-	bool m_exitGame; // control exiting game
-
+	string action = "flock";
+	int leader = 0;
 	float boidsSize = 3;
 	float enemySize = 10;
-	string action = "flock";
+	float leaderSpeedChange = 1.0f;
+	float leaderDirectionChange = 1.0f;
 	bool close = false;
+	bool m_exitGame;
 
-	//Create flock, vector of shapes, and initialize boids
-	Flock flock;
-	vector<sf::CircleShape> shapes;
+	const int MAX_BOIDS = 100;
 
-	const int MAX_BOIDS = 300;
-
-	int gridSizeX;
-	int gridSizeY;
-	std::vector<std::vector<std::vector<Boid>>> grid;
-	float interactionRange;
-
-	void initializeGrid();
-	void updateGrid();
-	void drawGridLines(sf::RenderWindow& window);
-	std::vector<Boid>& getNeighbors(Boid& boid);
 };
 
 #endif // !GAME_HPP

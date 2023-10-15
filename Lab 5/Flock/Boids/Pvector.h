@@ -63,6 +63,7 @@ public:
 	void normalize();
 
 	Pvector copy(Pvector v);	
+	Pvector operator+(const Pvector& other) const;
 
 	Pvector operator-(const Pvector& other) const 
 	{
