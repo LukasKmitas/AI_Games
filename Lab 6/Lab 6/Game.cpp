@@ -2,7 +2,7 @@
 #include <iostream>
 
 Game::Game() :
-	m_window{ sf::VideoMode{ 1200U, 800U, 32U }, "Flow Field Pathfinding Algorithm" },
+	m_window{ sf::VideoMode{ Global::S_HEIGHT, Global::S_WIDTH, 32U }, "Flow Field Pathfinding Algorithm" },
 	m_exitGame{false}
 {
 	setupFontAndText();
