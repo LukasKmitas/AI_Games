@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "Global.h"
+#include "Grid.h"
+#include "Agent.h"
 
 class Game
 {
@@ -13,23 +15,22 @@ public:
 	void run();
 
 private:
+	Grid m_grid;
+	Agent m_agent;
 
 	void processEvents();
 	void processKeys(sf::Event t_event);
 	void update(sf::Time t_deltaTime);
 	void render();
-	
-	void setupFontAndText();
-	void setupSprite();
 
 	sf::RenderWindow m_window;
-	sf::Font m_ArialBlackfont;
-	sf::Text m_welcomeMessage;
-	sf::Texture m_logoTexture;
-	sf::Sprite m_logoSprite;
+	
+	sf::Vector2i m_startTile;
+	sf::Vector2i m_goalTile;
+
+	bool m_displayCostField;
+	bool m_displayFlowField;
+
 	bool m_exitGame;
-
 };
-
 #endif
-

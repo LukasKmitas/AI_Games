@@ -9,6 +9,8 @@ public:
     bool isTraversable;
     sf::Vector2f m_position;
     sf::Vector2f m_flowField;
+    sf::Color m_vectorColor;
     int m_cost;
-    int m_intergrationF;
+    int m_integrationF;
+    int m_number;
 };

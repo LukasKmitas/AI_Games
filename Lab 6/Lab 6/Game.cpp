@@ -2,11 +2,13 @@
 #include <iostream>
 
 Game::Game() :
-	m_window{ sf::VideoMode{ Global::S_HEIGHT, Global::S_WIDTH, 32U }, "Flow Field Pathfinding Algorithm" },
+	m_window{ sf::VideoMode{ Global::S_WIDTH, Global::S_HEIGHT, 32U }, "Flow Field Pathfinding Algorithm" },
 	m_exitGame{false}
 {
-	setupFontAndText();
-	setupSprite();
+	m_agent.setPosition(sf::Vector2f(Global::S_WIDTH / 2, Global::S_HEIGHT / 2));
+
+	m_startTile = sf::Vector2i(-1, -1);
+	m_goalTile = sf::Vector2i(-1, -1);
 }
 
 Game::~Game()
@@ -46,6 +48,25 @@ void Game::processEvents()
 		{
 			processKeys(newEvent);
 		}
+		else if (sf::Event::MouseButtonPressed == newEvent.type)
+		{
+			
+			if (newEvent.mouseButton.button == sf::Mouse::Right)
+			{
+				sf::Vector2i goalTile(newEvent.mouseButton.x / Global::TILE_SIZE, newEvent.mouseButton.y / Global::TILE_SIZE);
+				m_grid.setGoalTile(goalTile);
+			}
+			else if (newEvent.mouseButton.button == sf::Mouse::Left)
+			{
+				sf::Vector2i startTile(newEvent.mouseButton.x / Global::TILE_SIZE, newEvent.mouseButton.y / Global::TILE_SIZE);
+				m_grid.setStartTile(startTile);
+			}
+			else if (newEvent.mouseButton.button == sf::Mouse::Middle) // Set the obstacle
+			{
+				sf::Vector2i obstacleTile(newEvent.mouseButton.x / Global::TILE_SIZE, newEvent.mouseButton.y / Global::TILE_SIZE);
+				m_grid.setObstacleTile(obstacleTile);
+			}
+		}
 	}
 }
 
@@ -55,6 +76,10 @@ void Game::processKeys(sf::Event t_event)
 	{
 		m_exitGame = true;
 	}
+	if (sf::Keyboard::T == t_event.key.code) // Toggle text display
+	{
+		m_grid.toggleTextDisplay();
+	}
 }
 
 void Game::update(sf::Time t_deltaTime)
@@ -63,39 +88,16 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		m_window.close();
 	}
+	m_agent.update(t_deltaTime, m_goalTile);
 }
 
 void Game::render()
 {
-	m_window.clear(sf::Color::White);
-	m_window.draw(m_welcomeMessage);
-	m_window.draw(m_logoSprite);
+	m_window.clear(sf::Color::Black);
+
+	m_grid.render(m_window);
+
+	//m_agent.render(m_window);
+
 	m_window.display();
-}
-
-void Game::setupFontAndText()
-{
-	if (!m_ArialBlackfont.loadFromFile("ASSETS\\FONTS\\ariblk.ttf"))
-	{
-		std::cout << "problem loading arial black font" << std::endl;
-	}
-	m_welcomeMessage.setFont(m_ArialBlackfont);
-	m_welcomeMessage.setString("SFML Game");
-	m_welcomeMessage.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
-	m_welcomeMessage.setPosition(40.0f, 40.0f);
-	m_welcomeMessage.setCharacterSize(80U);
-	m_welcomeMessage.setOutlineColor(sf::Color::Red);
-	m_welcomeMessage.setFillColor(sf::Color::Black);
-	m_welcomeMessage.setOutlineThickness(3.0f);
-
-}
-
-void Game::setupSprite()
-{
-	if (!m_logoTexture.loadFromFile("ASSETS\\IMAGES\\SFML-LOGO.png"))
-	{
-		std::cout << "problem loading logo" << std::endl;
-	}
-	m_logoSprite.setTexture(m_logoTexture);
-	m_logoSprite.setPosition(300.0f, 180.0f);
 }
