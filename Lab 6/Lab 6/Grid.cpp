@@ -1,7 +1,7 @@
 #include "Grid.h"
 
 Grid::Grid()
-    : m_displayText(true),
+    : 
     m_startTile(-1, -1),
     m_goalTile(-1, -1)
 {
@@ -30,8 +30,10 @@ Grid::Grid()
             tileNumber++;
         }
     }
-    setCostField();
-    calculateVectorField();
+    m_displayText = false;
+    m_displayCost = false;
+    m_displayIntegrationField = false;
+    m_displayPath = false;
 }
 
 void Grid::render(sf::RenderWindow& window)
@@ -41,6 +43,15 @@ void Grid::render(sf::RenderWindow& window)
         for (int col = 0; col < Global::GRID_WIDTH; col++)
         {
             m_tiles[row][col].m_tile.setPosition(sf::Vector2f(col * Global::TILE_SIZE, row * Global::TILE_SIZE));
+            if (sf::Vector2i(col, row) != m_startTile && sf::Vector2i(col, row) != m_goalTile && m_tiles[row][col].isTraversable)
+            {
+                int cost = m_tiles[row][col].m_cost;
+                int maxCost = 80;
+                int minCost = 1;
+                float colorIntensity = static_cast<float>(cost - minCost) / (maxCost - minCost);
+                sf::Color tileColor(0, 0, static_cast<sf::Uint8>(255 * (1.0f - colorIntensity)), 200);
+                m_tiles[row][col].m_tile.setFillColor(tileColor);
+            }
 
             window.draw(m_tiles[row][col].m_tile);
 
@@ -51,11 +62,42 @@ void Grid::render(sf::RenderWindow& window)
                 window.draw(m_tileNumberText);
             }
 
+            if (m_displayCost)
+            {
+                m_tileNumberText.setString(std::to_string(m_tiles[row][col].m_cost));
+                m_tileNumberText.setPosition(m_tiles[row][col].m_tile.getPosition() + sf::Vector2f(5.0f, 5.0f)); // Adjust the position for better visibility.
+                window.draw(m_tileNumberText);
+            }
+
+            if (m_displayIntegrationField)
+            {
+                m_tileNumberText.setString(std::to_string(m_tiles[row][col].m_integrationF));
+                m_tileNumberText.setPosition(m_tiles[row][col].m_tile.getPosition() + sf::Vector2f(5.0f, 5.0f)); // Adjust the position for better visibility.
+                window.draw(m_tileNumberText);
+            }
+
+            if (m_displayPath) 
+            {
+                for (const sf::Vector2i& pathTile : m_path) 
+                {
+                    int row = pathTile.y;
+                    int col = pathTile.x;
+                    if (pathTile != m_startTile && pathTile != m_goalTile) 
+                    {
+                        m_tiles[row][col].m_tile.setFillColor(sf::Color(0, 128, 0, 200));
+                    }
+                    window.draw(m_tiles[row][col].m_tile);
+                }
+            }
+
+
             if (m_tiles[row][col].isTraversable)
             {
                 // Draw arrows representing the vector field
                 sf::Vector2f tileCenter = m_tiles[row][col].m_tile.getPosition() + sf::Vector2f(Global::TILE_SIZE / 2, Global::TILE_SIZE / 2);
                 sf::Vector2f vector = m_tiles[row][col].m_flowField;
+
+                //std::cout << "Vector at (" << row << ", " << col << "): (" << vector.x << ", " << vector.y << ")" << std::endl;
 
                 sf::Color vectorColor = m_tiles[row][col].m_vectorColor;
                 sf::Vector2f arrowEnd = tileCenter + vector * (Global::TILE_SIZE / 2.0f * scalingFactor);
@@ -99,13 +141,28 @@ void Grid::setupFontAndText()
     }
     m_tileNumberText.setFont(m_ArialBlackfont);
     m_tileNumberText.setStyle(sf::Text::Italic);
-    m_tileNumberText.setCharacterSize(5U);
+    m_tileNumberText.setCharacterSize(7U);
     m_tileNumberText.setFillColor(sf::Color::White);
 }
 
 void Grid::toggleTextDisplay()
 {
     m_displayText = !m_displayText;
+}
+
+void Grid::toggleCostDisplay()
+{
+    m_displayCost = !m_displayCost;
+}
+
+void Grid::toggleIntegrationFieldDisplay()
+{
+    m_displayIntegrationField = !m_displayIntegrationField;
+}
+
+void Grid::togglePathDisplay()
+{
+    m_displayPath = !m_displayPath;
 }
 
 void Grid::setStartTile(const sf::Vector2i& startTile)
@@ -120,7 +177,13 @@ void Grid::setStartTile(const sf::Vector2i& startTile)
         m_currentStartTile = startTile;
         m_startTile = startTile;
         m_tiles[startTile.y][startTile.x].m_tile.setFillColor(sf::Color::Green);
-        calculateVectorField();
+
+        if (m_currentGoalTile != sf::Vector2i(-1, -1))
+        {
+            calculateCostField();
+            calculateIntegrationField();
+            calculateVectorField();
+        }
     }
 }
 
@@ -135,7 +198,13 @@ void Grid::setGoalTile(const sf::Vector2i& goalTile)
         m_currentGoalTile = goalTile;
         m_goalTile = goalTile;
         m_tiles[goalTile.y][goalTile.x].m_tile.setFillColor(sf::Color::Red);
-        calculateVectorField();
+
+        if (m_currentStartTile != sf::Vector2i(-1, -1))
+        {
+            calculateCostField();
+            calculateIntegrationField();
+            calculateVectorField();
+        }
     }
 }
 
@@ -144,7 +213,6 @@ void Grid::setObstacleTile(const sf::Vector2i& obstacleTile)
     if (m_currentObstacleTile == obstacleTile) 
     {
         m_tiles[obstacleTile.y][obstacleTile.x].isTraversable = true;
-        m_tiles[obstacleTile.y][obstacleTile.x].m_tile.setFillColor(sf::Color::Black);
         m_tiles[obstacleTile.y][obstacleTile.x].m_cost = 1;
         m_currentObstacleTile = sf::Vector2i(-1, -1);
     }
@@ -152,76 +220,196 @@ void Grid::setObstacleTile(const sf::Vector2i& obstacleTile)
     {
         m_currentObstacleTile = obstacleTile;
         m_tiles[obstacleTile.y][obstacleTile.x].isTraversable = false;
-        m_tiles[obstacleTile.y][obstacleTile.x].m_tile.setFillColor(sf::Color::Blue);
+        m_tiles[obstacleTile.y][obstacleTile.x].m_tile.setFillColor(sf::Color::Black);
         m_tiles[obstacleTile.y][obstacleTile.x].m_cost = 100;
     }
-    calculateVectorField();
+    if (m_currentStartTile != sf::Vector2i(-1, -1) && m_currentGoalTile != sf::Vector2i(-1, -1))
+    {
+        calculateCostField();
+        calculateIntegrationField();
+        calculateVectorField();
+    }
 }
 
-void Grid::setCostField()
+void Grid::calculateCostField()
 {
-    for (int row = 0; row < Global::GRID_HEIGHT; ++row) 
+    for (int row = 0; row < Global::GRID_HEIGHT; ++row)
     {
-        for (int col = 0; col < Global::GRID_WIDTH; ++col) 
+        for (int col = 0; col < Global::GRID_WIDTH; ++col)
         {
-            if (m_tiles[row][col].isTraversable) 
+            if (m_tiles[row][col].isTraversable)
             {
-                m_tiles[row][col].m_cost = 1;
+                m_tiles[row][col].m_cost = std::numeric_limits<int>::max();
             }
-            else 
+        }
+    }
+
+    sf::Vector2i goal = m_goalTile;
+    m_tiles[goal.y][goal.x].m_cost = 0;
+
+    std::queue<sf::Vector2i> queue;
+    queue.push(goal);
+
+    while (!queue.empty())
+    {
+        sf::Vector2i currentTile = queue.front();
+        queue.pop();
+
+        int currentCost = m_tiles[currentTile.y][currentTile.x].m_cost;
+
+        // Explore neighbors
+        for (int i = -1; i <= 1; ++i)
+        {
+            for (int j = -1; j <= 1; ++j)
             {
-                m_tiles[row][col].m_cost = 100;
+                int newRow = currentTile.y + i;
+                int newCol = currentTile.x + j;
+
+                if (newRow >= 0 && newRow < Global::GRID_HEIGHT && newCol >= 0 && newCol < Global::GRID_WIDTH)
+                {
+                    if (m_tiles[newRow][newCol].isTraversable)
+                    {
+                        int newCost = currentCost + 1;
+
+                        // Update cost
+                        if (newCost < m_tiles[newRow][newCol].m_cost)
+                        {
+                            m_tiles[newRow][newCol].m_cost = newCost;
+                            queue.push(sf::Vector2i(newCol, newRow));
+                        }
+                    }
+                }
             }
         }
     }
 }
 
-void Grid::calculateVectorField() 
+void Grid::calculateIntegrationField()
 {
-    for (int row = 0; row < Global::GRID_HEIGHT; ++row) 
+    for (int row = 0; row < Global::GRID_HEIGHT; ++row)
     {
-        for (int col = 0; col < Global::GRID_WIDTH; ++col) 
+        for (int col = 0; col < Global::GRID_WIDTH; ++col)
         {
-            if (m_tiles[row][col].isTraversable) 
-            {
-                // Find the neighboring tile with the lowest cost
-                int minCost = m_tiles[row][col].m_cost;
-                sf::Vector2f vectorToLowestCostTile(0, 0);
+            m_tiles[row][col].m_integrationF = std::numeric_limits<int>::max();
+        }
+    }
 
-                for (int i = -1; i <= 1; ++i) 
+    sf::Vector2i goal = m_goalTile;
+    m_tiles[goal.y][goal.x].m_integrationF = 0;
+
+    std::queue<sf::Vector2i> queue;
+    queue.push(goal);
+
+    while (!queue.empty())
+    {
+        sf::Vector2i currentTile = queue.front();
+        queue.pop();
+
+        int currentIntegrationField = m_tiles[currentTile.y][currentTile.x].m_integrationF;
+
+        // Explore neighbors
+        for (int i = -1; i <= 1; ++i)
+        {
+            for (int j = -1; j <= 1; ++j)
+            {
+                int newRow = currentTile.y + i;
+                int newCol = currentTile.x + j;
+
+                if (newRow >= 0 && newRow < Global::GRID_HEIGHT && newCol >= 0 && newCol < Global::GRID_WIDTH)
                 {
-                    for (int j = -1; j <= 1; ++j) 
+                    if (m_tiles[newRow][newCol].isTraversable)
+                    {
+                        int newIntegrationField = currentIntegrationField + m_tiles[newRow][newCol].m_cost;
+
+                        // Update integration field
+                        if (newIntegrationField < m_tiles[newRow][newCol].m_integrationF)
+                        {
+                            m_tiles[newRow][newCol].m_integrationF = newIntegrationField;
+                            queue.push(sf::Vector2i(newCol, newRow));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Finding the shortest path to end goal
+    m_path.clear();
+    sf::Vector2i currentTile = m_startTile;
+
+    while (currentTile != m_goalTile) 
+    {
+        m_path.push_back(currentTile);
+
+        int currentIntegrationField = m_tiles[currentTile.y][currentTile.x].m_integrationF;
+        sf::Vector2i bestNeighbor(-1, -1);
+
+        for (int i = -1; i <= 1; ++i) 
+        {
+            for (int j = -1; j <= 1; ++j)
+            {
+                int newRow = currentTile.y + i;
+                int newCol = currentTile.x + j;
+
+                if (newRow >= 0 && newRow < Global::GRID_HEIGHT && newCol >= 0 && newCol < Global::GRID_WIDTH) {
+                    if (m_tiles[newRow][newCol].isTraversable && m_tiles[newRow][newCol].m_integrationF < currentIntegrationField) {
+                        currentIntegrationField = m_tiles[newRow][newCol].m_integrationF;
+                        bestNeighbor = sf::Vector2i(newCol, newRow);
+                    }
+                }
+            }
+        }
+        currentTile = bestNeighbor;
+    }
+    m_path.push_back(m_goalTile);
+}
+
+void Grid::calculateVectorField()
+{
+    for (int row = 0; row < Global::GRID_HEIGHT; ++row)
+    {
+        for (int col = 0; col < Global::GRID_WIDTH; ++col)
+        {
+            if (m_tiles[row][col].isTraversable)
+            {
+                int minIntegrationField = m_tiles[row][col].m_integrationF;
+                sf::Vector2i bestNeighbor(-1, -1);
+
+                for (int i = -1; i <= 1; ++i)
+                {
+                    for (int j = -1; j <= 1; ++j)
                     {
                         int newRow = row + i;
                         int newCol = col + j;
 
                         if (newRow >= 0 && newRow < Global::GRID_HEIGHT && newCol >= 0 && newCol < Global::GRID_WIDTH)
                         {
-                            int cost = m_tiles[newRow][newCol].m_cost;
-                            if (cost < minCost)
+                            if (m_tiles[newRow][newCol].isTraversable && m_tiles[newRow][newCol].m_integrationF < minIntegrationField)
                             {
-                                minCost = cost;
-                                vectorToLowestCostTile = sf::Vector2f(newCol - col, newRow - row);
+                                minIntegrationField = m_tiles[newRow][newCol].m_integrationF;
+                                bestNeighbor = sf::Vector2i(newCol, newRow);
                             }
                         }
                     }
                 }
 
-                float length = std::sqrt(vectorToLowestCostTile.x * vectorToLowestCostTile.x + vectorToLowestCostTile.y * vectorToLowestCostTile.y);
-                if (length != 0) 
+                // Calculate the vector from this tile to the best neighbor
+                sf::Vector2f vectorToBestNeighbor = sf::Vector2f(bestNeighbor.x - col, bestNeighbor.y - row);
+
+                float length = std::sqrt(vectorToBestNeighbor.x * vectorToBestNeighbor.x + vectorToBestNeighbor.y * vectorToBestNeighbor.y);
+                if (length != 0)
                 {
-                    vectorToLowestCostTile.x /= length;
-                    vectorToLowestCostTile.y /= length;
+                    vectorToBestNeighbor.x /= length;
+                    vectorToBestNeighbor.y /= length;
                 }
 
-                // Set the vector field for this tile
-                m_tiles[row][col].m_flowField = vectorToLowestCostTile;
+                m_tiles[row][col].m_flowField = vectorToBestNeighbor;
 
                 // Calculate color based on vector direction
-                sf::Vector2f normalizedVector = vectorToLowestCostTile;
+                sf::Vector2f normalizedVector = vectorToBestNeighbor;
                 float vectorLength = std::sqrt(normalizedVector.x * normalizedVector.x + normalizedVector.y * normalizedVector.y);
 
-                if (vectorLength > 0) 
+                if (vectorLength > 0)
                 {
                     normalizedVector.x /= vectorLength;
                     normalizedVector.y /= vectorLength;
@@ -238,3 +426,4 @@ void Grid::calculateVectorField()
         }
     }
 }
+

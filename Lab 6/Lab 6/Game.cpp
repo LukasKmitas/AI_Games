@@ -76,9 +76,25 @@ void Game::processKeys(sf::Event t_event)
 	{
 		m_exitGame = true;
 	}
-	if (sf::Keyboard::T == t_event.key.code) // Toggle text display
+	if (sf::Keyboard::Num1 == t_event.key.code) // This is to see what Number the tile is.
 	{
 		m_grid.toggleTextDisplay();
+		std::cout << "Toggle Text Display - Button Pressed" << std::endl;
+	}
+	if (sf::Keyboard::Num2 == t_event.key.code) // This is to see the Tile cost.
+	{
+		m_grid.toggleCostDisplay();
+		std::cout << "Toggle Cost Display - Button Pressed" << std::endl;
+	}
+	if (sf::Keyboard::Num3 == t_event.key.code) // This is to see the integrationF cost.
+	{
+		m_grid.toggleIntegrationFieldDisplay();
+		std::cout << "Toggle Integration Display - Button Pressed" << std::endl;
+	}
+	if (sf::Keyboard::Num4 == t_event.key.code) // This is to see the Path from Start Tile to End (Goal) Tile.
+	{
+		m_grid.togglePathDisplay();
+		std::cout << "Toggle Path Display - Button Pressed" << std::endl;
 	}
 }
 
