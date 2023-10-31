@@ -1,23 +1,30 @@
 #pragma once
 #include "SFML/Graphics.hpp"
+#include "Grid.h"
 
 class Agent
 {
 public:
-    Agent();
+    Agent(Grid& grid);
 
-    void update(sf::Time dt, const sf::Vector2i& goalTile);
-    void setPosition(const sf::Vector2f& position);
+    void update(sf::Time dt);
     void render(sf::RenderWindow& window);
 
 private:
     
-    void moveAlongFlowField(const sf::Vector2i& goalTile);
     void setupAgent();
 
-    sf::ConvexShape m_triangle;
-    
+    Grid& m_grid;
+    std::vector<sf::Vector2i> m_path;
+
     sf::Vector2f m_position;
-    sf::Vector2f m_velocity;
+    sf::CircleShape m_circle;
+    sf::Clock m_clock;
+    sf::Shader m_shader;
+    sf::Texture m_texture;
+
+    int m_currentPathIndex;
+    float m_speed;
+    const double PI = 3.14159265358979323846;
 
 };

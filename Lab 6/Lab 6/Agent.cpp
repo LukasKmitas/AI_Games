@@ -1,38 +1,57 @@
 #include "Agent.h"
 
-Agent::Agent()
-	: m_position(0.0f, 0.0f), m_velocity(0.0f, 0.0f)
+Agent::Agent(Grid& grid)
+    : 
+    m_grid(grid)
 {
     setupAgent();
+    m_currentPathIndex = 0;
+    m_speed = 50;
 }
 
-void Agent::update(sf::Time dt, const sf::Vector2i& goalTile)
+void Agent::update(sf::Time dt)
 {
-	moveAlongFlowField(goalTile);
-}
+    m_path = m_grid.getPath();
 
-void Agent::setPosition(const sf::Vector2f& position)
-{
-	m_position = position;
+    if (!m_path.empty() && m_currentPathIndex < m_path.size())
+    {
+        sf::Vector2f targetPosition = m_grid.getPositionInTile(m_path[m_currentPathIndex]);
+        sf::Vector2f direction = targetPosition - m_position;
+        float distance = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+
+        if (distance < 1.0f)
+        {
+            m_currentPathIndex++;
+        }
+        else
+        {
+            direction /= distance;
+            m_position += direction * m_speed * dt.asSeconds();
+            m_circle.setPosition(m_position);
+        }
+    }
 }
 
 void Agent::render(sf::RenderWindow& window)
 {
-    window.draw(m_triangle);
-}
-
-void Agent::moveAlongFlowField(const sf::Vector2i& goalTile)
-{
+    m_shader.setUniform("time", m_clock.getElapsedTime().asSeconds());
+    window.draw(m_circle, &m_shader);
 }
 
 void Agent::setupAgent()
 {
-    m_triangle.setPointCount(3);
-    m_triangle.setPoint(0, sf::Vector2f(0.0f, -20.0f));  // Top point
-    m_triangle.setPoint(1, sf::Vector2f(-15.0f, 15.0f));  // Bottom-left point
-    m_triangle.setPoint(2, sf::Vector2f(15.0f, 15.0f));   // Bottom-right point
+    if (!m_texture.loadFromFile("ASSETS\\IMAGES\\Sparkle.png"))
+    {
+        std::cerr << "Failed to load texture" << std::endl;
+    }
 
-    m_triangle.setFillColor(sf::Color::Red);
-    m_triangle.setOutlineColor(sf::Color::Black);
-    m_triangle.setOutlineThickness(2.0f);
+    if (!m_shader.loadFromFile("ASSETS\\SHADERS\\sparkle_shader.frag", sf::Shader::Fragment))
+    {
+        std::cerr << "Failed to load shader" << std::endl;
+    }
+
+    m_circle.setRadius(10.0f);
+    m_circle.setFillColor(sf::Color::Red);
+    m_shader.setUniform("texture", m_texture);
+    m_clock.restart();
 }

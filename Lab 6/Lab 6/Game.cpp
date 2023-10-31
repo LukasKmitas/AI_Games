@@ -3,10 +3,10 @@
 
 Game::Game() :
 	m_window{ sf::VideoMode{ Global::S_WIDTH, Global::S_HEIGHT, 32U }, "Flow Field Pathfinding Algorithm" },
-	m_exitGame{false}
+	m_exitGame{false},
+	m_grid(),
+	m_agent(m_grid)
 {
-	m_agent.setPosition(sf::Vector2f(Global::S_WIDTH / 2, Global::S_HEIGHT / 2));
-
 	m_startTile = sf::Vector2i(-1, -1);
 	m_goalTile = sf::Vector2i(-1, -1);
 }
@@ -104,7 +104,7 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		m_window.close();
 	}
-	m_agent.update(t_deltaTime, m_goalTile);
+	m_agent.update(t_deltaTime);
 }
 
 void Game::render()
@@ -113,7 +113,7 @@ void Game::render()
 
 	m_grid.render(m_window);
 
-	//m_agent.render(m_window);
+	m_agent.render(m_window);
 
 	m_window.display();
 }

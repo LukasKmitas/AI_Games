@@ -36,6 +36,10 @@ Grid::Grid()
     m_displayPath = false;
 }
 
+/// <summary>
+/// To draw the grid and everything needed for it
+/// </summary>
+/// <param name="window"> window </param>
 void Grid::render(sf::RenderWindow& window)
 {
     for (int row = 0; row < Global::GRID_HEIGHT; row++)
@@ -65,14 +69,14 @@ void Grid::render(sf::RenderWindow& window)
             if (m_displayCost)
             {
                 m_tileNumberText.setString(std::to_string(m_tiles[row][col].m_cost));
-                m_tileNumberText.setPosition(m_tiles[row][col].m_tile.getPosition() + sf::Vector2f(5.0f, 5.0f)); // Adjust the position for better visibility.
+                m_tileNumberText.setPosition(m_tiles[row][col].m_tile.getPosition() + sf::Vector2f(5.0f, 5.0f));
                 window.draw(m_tileNumberText);
             }
 
             if (m_displayIntegrationField)
             {
                 m_tileNumberText.setString(std::to_string(m_tiles[row][col].m_integrationF));
-                m_tileNumberText.setPosition(m_tiles[row][col].m_tile.getPosition() + sf::Vector2f(5.0f, 5.0f)); // Adjust the position for better visibility.
+                m_tileNumberText.setPosition(m_tiles[row][col].m_tile.getPosition() + sf::Vector2f(5.0f, 5.0f));
                 window.draw(m_tileNumberText);
             }
 
@@ -118,16 +122,34 @@ void Grid::render(sf::RenderWindow& window)
     }
 }
 
+/// <summary>
+/// To get that Tile
+/// </summary>
+/// <param name="row"> which Row </param>
+/// <param name="col"> which Col</param>
+/// <returns> returns that Tile </returns>
 Tile& Grid::getTile(int row, int col)
 {
     return m_tiles[row][col];
 }
 
+/// <summary>
+/// Sets that tiles cost
+/// </summary>
+/// <param name="row"> tiles Row </param>
+/// <param name="col"> tiles Col </param>
+/// <param name="cost"> cost int </param>
 void Grid::setTileCost(int row, int col, int cost)
 {
     m_tiles[row][col].m_cost = cost;
 }
 
+/// <summary>
+/// Sets if that tile is Traversable or not (Obstacle)
+/// </summary>
+/// <param name="row"> tiles Row </param>
+/// <param name="col"> tiles Col </param>
+/// <param name="traversable"> true or false </param>
 void Grid::setTileTraversable(int row, int col, bool traversable)
 {
     m_tiles[row][col].isTraversable = traversable;
@@ -165,6 +187,10 @@ void Grid::togglePathDisplay()
     m_displayPath = !m_displayPath;
 }
 
+/// <summary>
+/// Sets the start tile
+/// </summary>
+/// <param name="startTile"> beginning Tile </param>
 void Grid::setStartTile(const sf::Vector2i& startTile)
 {
     if (m_currentStartTile != startTile)
@@ -187,6 +213,10 @@ void Grid::setStartTile(const sf::Vector2i& startTile)
     }
 }
 
+/// <summary>
+/// Sets up the End tile (Goal)
+/// </summary>
+/// <param name="goalTile"> ending tile </param>
 void Grid::setGoalTile(const sf::Vector2i& goalTile)
 {
     if (m_currentGoalTile != goalTile)
@@ -208,6 +238,10 @@ void Grid::setGoalTile(const sf::Vector2i& goalTile)
     }
 }
 
+/// <summary>
+/// Sets up the obstacle tile
+/// </summary>
+/// <param name="obstacleTile"> true or false on that tile </param>
 void Grid::setObstacleTile(const sf::Vector2i& obstacleTile)
 {
     if (m_currentObstacleTile == obstacleTile) 
@@ -231,6 +265,13 @@ void Grid::setObstacleTile(const sf::Vector2i& obstacleTile)
     }
 }
 
+/// <summary>
+/// A cost field (sometimes called a heatmap)
+/// Store the path distance (not Euclidian) from the goal to every tile on the map
+/// First, the algorithm begins at the goal, and marks it with a path distance of 0.
+/// Then, it gets each tile's unmarked neighbours, and marks them with the previous tile's path distance + 1.
+/// This continues until the entire reachable map has been marked.
+/// </summary>
 void Grid::calculateCostField()
 {
     for (int row = 0; row < Global::GRID_HEIGHT; ++row)
@@ -284,6 +325,13 @@ void Grid::calculateCostField()
     }
 }
 
+/// <summary>
+/// 2. Generate the integration field
+/// First, begin at the goal, and set it’s integration field to 0.#
+/// Then, for each tile's unprocessed neighbours, 
+/// their integration field is calculated by adding the direct distance to the goal tile to it’s cost field.
+/// This continues until the entire reachable map has been marked.
+/// </summary>
 void Grid::calculateIntegrationField()
 {
     for (int row = 0; row < Global::GRID_HEIGHT; ++row)
@@ -364,6 +412,14 @@ void Grid::calculateIntegrationField()
     m_path.push_back(m_goalTile);
 }
 
+/// <summary>
+/// Flow field (sometimes called a vector field)
+/// The vector field simply stores a vector that points down the gradient
+/// of the distance function (towards the goal) at every tile
+/// Vectors point from the center of the tile along the shortest path to the goal(in red)
+/// This vector field is generated one tile at a time by looking at the integration fields
+/// of its neighbouring cells and identifying the lowest value.
+/// </summary>
 void Grid::calculateVectorField()
 {
     for (int row = 0; row < Global::GRID_HEIGHT; ++row)
@@ -425,5 +481,26 @@ void Grid::calculateVectorField()
             }
         }
     }
+}
+
+/// <summary>
+/// Gets Path
+/// </summary>
+/// <returns> path </returns>
+std::vector<sf::Vector2i> Grid::getPath() const
+{
+    return m_path;
+}
+
+/// <summary>
+/// Gets the position of the tile
+/// </summary>
+/// <param name="tile"></param>
+/// <returns></returns>
+sf::Vector2f Grid::getPositionInTile(const sf::Vector2i& tile) const
+{
+    float x = static_cast<float>(tile.x) * Global::TILE_SIZE;
+    float y = static_cast<float>(tile.y) * Global::TILE_SIZE;
+    return sf::Vector2f(x , y);
 }
 

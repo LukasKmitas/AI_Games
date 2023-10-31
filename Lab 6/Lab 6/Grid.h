@@ -38,11 +38,8 @@ public:
 	void calculateIntegrationField();
 	void calculateVectorField();
 
-	void setPath(const std::vector<sf::Vector2i>& path) 
-	{
-		m_path = path;
-	}
-
+	std::vector<sf::Vector2i> getPath() const;
+	sf::Vector2f getPositionInTile(const sf::Vector2i& tile) const;
 
 private:
 
