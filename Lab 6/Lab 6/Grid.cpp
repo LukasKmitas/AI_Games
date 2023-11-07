@@ -367,7 +367,12 @@ void Grid::calculateIntegrationField()
                 {
                     if (m_tiles[newRow][newCol].isTraversable)
                     {
-                        int newIntegrationField = currentIntegrationField + m_tiles[newRow][newCol].m_cost;
+                        // Calculate the direct distance to the goal
+                        int dx = std::abs(newCol - goal.x);
+                        int dy = std::abs(newRow - goal.y);
+                        int directDistance = dx + dy;
+
+                        int newIntegrationField = currentIntegrationField + m_tiles[newRow][newCol].m_cost + directDistance;
 
                         // Update integration field
                         if (newIntegrationField < m_tiles[newRow][newCol].m_integrationF)
@@ -399,8 +404,10 @@ void Grid::calculateIntegrationField()
                 int newRow = currentTile.y + i;
                 int newCol = currentTile.x + j;
 
-                if (newRow >= 0 && newRow < Global::GRID_HEIGHT && newCol >= 0 && newCol < Global::GRID_WIDTH) {
-                    if (m_tiles[newRow][newCol].isTraversable && m_tiles[newRow][newCol].m_integrationF < currentIntegrationField) {
+                if (newRow >= 0 && newRow < Global::GRID_HEIGHT && newCol >= 0 && newCol < Global::GRID_WIDTH) 
+                {
+                    if (m_tiles[newRow][newCol].isTraversable && m_tiles[newRow][newCol].m_integrationF < currentIntegrationField) 
+                    {
                         currentIntegrationField = m_tiles[newRow][newCol].m_integrationF;
                         bestNeighbor = sf::Vector2i(newCol, newRow);
                     }
