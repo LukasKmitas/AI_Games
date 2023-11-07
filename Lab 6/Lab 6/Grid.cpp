@@ -163,7 +163,8 @@ void Grid::setupFontAndText()
     }
     m_tileNumberText.setFont(m_ArialBlackfont);
     m_tileNumberText.setStyle(sf::Text::Italic);
-    m_tileNumberText.setCharacterSize(7U);
+    m_tileNumberText.setCharacterSize(12U);
+    //m_tileNumberText.setCharacterSize(8U);
     m_tileNumberText.setFillColor(sf::Color::White);
 }
 

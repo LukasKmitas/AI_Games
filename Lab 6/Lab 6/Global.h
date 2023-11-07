@@ -3,6 +3,7 @@
 struct Global
 {
 public:
+	// 1000U screen size
 	static const int S_WIDTH{ 2000U };
 	static const int S_HEIGHT{ 2000U };
 	static const int TILE_SIZE{ std::min(S_WIDTH / 50, S_HEIGHT / 50) };
