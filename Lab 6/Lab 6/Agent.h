@@ -10,6 +10,8 @@ public:
     void update(sf::Time dt);
     void render(sf::RenderWindow& window);
 
+    void togglePath();
+
 private:
     
     void setupAgent();
@@ -23,6 +25,7 @@ private:
     sf::Shader m_shader;
     sf::Texture m_texture;
 
+    bool m_togglePath;
     int m_currentPathIndex;
     float m_speed;
     const double PI = 3.14159265358979323846;

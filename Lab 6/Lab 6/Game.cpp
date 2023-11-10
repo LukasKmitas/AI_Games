@@ -96,6 +96,11 @@ void Game::processKeys(sf::Event t_event)
 		m_grid.togglePathDisplay();
 		std::cout << "Toggle Path Display - Button Pressed" << std::endl;
 	}
+	else if (sf::Keyboard::Num5 == t_event.key.code)
+	{
+		m_agent.togglePath();
+		std::cout << "Toggle Path Version - Button Pressed" << std::endl;
+	}
 }
 
 void Game::update(sf::Time t_deltaTime)

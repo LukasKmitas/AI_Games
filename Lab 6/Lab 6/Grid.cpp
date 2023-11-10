@@ -94,7 +94,6 @@ void Grid::render(sf::RenderWindow& window)
                 }
             }
 
-
             if (m_tiles[row][col].isTraversable)
             {
                 // Draw arrows representing the vector field
@@ -467,6 +466,7 @@ void Grid::calculateVectorField()
                     vectorToBestNeighbor.y /= length;
                 }
 
+                // Assigning flowField
                 m_tiles[row][col].m_flowField = vectorToBestNeighbor;
 
                 // Calculate color based on vector direction
@@ -511,4 +511,3 @@ sf::Vector2f Grid::getPositionInTile(const sf::Vector2i& tile) const
     float y = static_cast<float>(tile.y) * Global::TILE_SIZE;
     return sf::Vector2f(x , y);
 }
-
