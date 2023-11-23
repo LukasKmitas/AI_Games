@@ -14,7 +14,6 @@ enum class TileShape
 
 enum class TileColor 
 {
-    Empty,
     Red,
     Orange,
     Yellow,
@@ -28,17 +27,21 @@ class Tile
 public:
 
     Tile();
+    ~Tile();
 
     void setShape(TileShape shape);
     void setColor(TileColor color);
-    TileShape getShape() const;
-    TileColor getColor() const;
+    sf::Shape* getTileShape() const;
 
 private:
 
-    sf::RectangleShape m_tile;
     TileShape m_shape;
     TileColor m_color;
+
+    sf::Shape* m_tileShape;
+
+    void createTileShape();
+
     bool m_isPlaced;
 
 };

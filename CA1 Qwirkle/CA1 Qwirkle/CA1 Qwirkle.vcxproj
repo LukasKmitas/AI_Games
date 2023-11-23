@@ -20,14 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="Board.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Global.h" />
-    <ClInclude Include="Grid.h" />
+    <ClInclude Include="Board.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>
   <ItemGroup>
