@@ -53,6 +53,10 @@ void Game::processKeys(sf::Event t_event)
 	{
 		m_exitGame = true;
 	}
+	if (sf::Keyboard::Num1 == t_event.key.code) // Toggles the bag
+	{
+		m_board.toggleBag();
+	}
 }
 
 void Game::update(sf::Time t_deltaTime)

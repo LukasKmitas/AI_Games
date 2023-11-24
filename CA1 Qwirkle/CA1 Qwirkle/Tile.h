@@ -7,9 +7,9 @@ enum class TileShape
     Circle,
     Square,
     Diamond,
-    Club,
-    Star,
-    Cross
+    Clover,
+    EightStar,
+    FourthStar
 };
 
 enum class TileColor 
@@ -41,6 +41,7 @@ private:
     sf::Shape* m_tileShape;
 
     void createTileShape();
+
 
     bool m_isPlaced;
 
