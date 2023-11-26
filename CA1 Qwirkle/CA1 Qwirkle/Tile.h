@@ -31,6 +31,7 @@ public:
 
     void setShape(TileShape shape);
     void setColor(TileColor color);
+
     sf::Shape* getTileShape() const;
 
 private:

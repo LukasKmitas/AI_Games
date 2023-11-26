@@ -18,9 +18,10 @@ public:
 private:
 
 	void initializeGrid();
-	
+	void initializeTileHolderGrid(sf::RenderWindow& m_window, const sf::RectangleShape& tileHolder);
+
 	void fillBag();
-	void randomTilesInHolder(sf::RectangleShape& holder);
+	void randomTilesInHolder();
 
 	void drawGridAndTilesInBag(sf::RenderWindow& m_window, const sf::RectangleShape& bagUI, const std::vector<Tile>& tileBag);
 

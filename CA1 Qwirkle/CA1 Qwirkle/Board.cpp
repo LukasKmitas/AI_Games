@@ -6,6 +6,7 @@ Board::Board()
     setupUI();
 	initializeGrid();
     fillBag();
+    randomTilesInHolder();
 }
 
 Board::~Board()
@@ -28,15 +29,15 @@ void Board::render(sf::RenderWindow& m_window)
     m_window.draw(m_tileHolder[0]);
     m_window.draw(m_tileHolder[1]);
 
+    initializeTileHolderGrid(m_window, m_tileHolder[0]);
+    initializeTileHolderGrid(m_window, m_tileHolder[1]);
+
     sf::Vector2f boxBagPosition = m_boxBagForTextUI.getPosition();
     std::string numTiles = std::to_string(tileBag.size());
     m_bagText.setString(numTiles);
     m_bagText.setPosition(boxBagPosition.x - m_bagText.getLocalBounds().width / 2.0f,
         boxBagPosition.y + m_boxBagForTextUI.getSize().y / 2.0f - m_bagText.getCharacterSize());
     m_window.draw(m_bagText);
-
-    randomTilesInHolder(m_tileHolder[0]); // Player's holder
-    randomTilesInHolder(m_tileHolder[1]); // Enemy's holder
 
     if (m_toggleBag)
     {
@@ -63,6 +64,30 @@ void Board::initializeGrid()
     }
 }
 
+void Board::initializeTileHolderGrid(sf::RenderWindow& m_window, const sf::RectangleShape& tileHolder)
+{
+    const float cellSize = 40.0f;
+    const float tileSpacing = 10.0f;
+
+    const float holderX = tileHolder.getPosition().x - tileHolder.getSize().x / 2.0f + 5;
+    const float holderY = tileHolder.getPosition().y - tileHolder.getSize().y / 2.0f;
+
+    sf::RectangleShape cell(sf::Vector2f(cellSize, cellSize));
+    cell.setFillColor(sf::Color::Transparent);
+    cell.setOutlineThickness(2.0f);
+    cell.setOutlineColor(sf::Color::Black);
+
+    for (int i = 0; i < 6; ++i)
+    {
+        float posX = holderX + i * (cellSize + tileSpacing);
+        float posY = holderY + 30;
+
+        cell.setPosition(posX, posY);
+        m_window.draw(cell);
+    }
+}
+
+
 void Board::fillBag()
 {
     const int numShapes = 6;
@@ -85,33 +110,11 @@ void Board::fillBag()
     }
 }
 
-void Board::randomTilesInHolder(sf::RectangleShape& holder)
+void Board::randomTilesInHolder()
 {
-    const int numTilesToShow = 6;
-    const float tileSpacing = 10.0f;
-    const float startX = holder.getPosition().x - holder.getSize().x / 2.0f + tileSpacing;
-    const float startY = holder.getPosition().y - holder.getSize().y / 2.0f + tileSpacing;
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> shapeDist(1, 6);
-    std::uniform_int_distribution<> colorDist(1, 6);
-
-    for (int i = 0; i < numTilesToShow; ++i) 
-    {
-        Tile tile;
-        tile.setShape(static_cast<TileShape>(shapeDist(gen)));
-        tile.setColor(static_cast<TileColor>(colorDist(gen)));
-
-        sf::Shape* tileShape = tile.getTileShape();
-        if (tileShape) 
-        {
-            float posX = startX + i * (tileSize + tileSpacing);
-            tileShape->setPosition(posX, startY);
-            holder.setTexture(tileShape->getTexture(), true);
-        }
-    }
+   
 }
+
 
 void Board::drawGridAndTilesInBag(sf::RenderWindow& m_window, const sf::RectangleShape& bagUI, const std::vector<Tile>& tileBag)
 {
@@ -191,16 +194,17 @@ void Board::setupUI()
     m_boxBagForTextUI.setPosition(sf::Vector2f(Global::S_WIDTH / 2, Global::S_HEIGHT - 150));
     m_boxBagForTextUI.setOrigin(m_boxBagForTextUI.getSize().x / 2, 0);
 
-    m_tileHolder[0].setFillColor(sf::Color::Green);
+    sf::Color darkGreen(0, 100, 0);
+    m_tileHolder[0].setFillColor(darkGreen);
     m_tileHolder[0].setOutlineColor(sf::Color::Red);
-    m_tileHolder[0].setOutlineThickness(1);
+    m_tileHolder[0].setOutlineThickness(2);
     m_tileHolder[0].setSize(sf::Vector2f(300, 50));
     m_tileHolder[0].setPosition(sf::Vector2f(Global::S_WIDTH / 4, Global::S_HEIGHT - 100));
     m_tileHolder[0].setOrigin(m_tileHolder[0].getSize().x / 2, 0);
 
-    m_tileHolder[1].setFillColor(sf::Color::Green);
+    m_tileHolder[1].setFillColor(darkGreen);
     m_tileHolder[1].setOutlineColor(sf::Color::Red);
-    m_tileHolder[1].setOutlineThickness(1);
+    m_tileHolder[1].setOutlineThickness(2);
     m_tileHolder[1].setSize(sf::Vector2f(300, 50));
     m_tileHolder[1].setPosition(sf::Vector2f(Global::S_WIDTH / 2 + 300, Global::S_HEIGHT - 100));
     m_tileHolder[1].setOrigin(m_tileHolder[1].getSize().x / 2, 0);
