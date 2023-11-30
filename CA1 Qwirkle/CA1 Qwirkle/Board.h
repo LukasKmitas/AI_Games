@@ -18,11 +18,10 @@ public:
 private:
 
 	void initializeGrid();
-	void initializeTileHolderGrid(sf::RenderWindow& m_window, const sf::RectangleShape& tileHolder);
-
 	void fillBag();
 	void randomTilesInHolder();
 
+	void drawGridAndTileInHolder(sf::RenderWindow& m_window, const sf::RectangleShape& tileHolder, const std::vector<Tile>& tiles);
 	void drawGridAndTilesInBag(sf::RenderWindow& m_window, const sf::RectangleShape& bagUI, const std::vector<Tile>& tileBag);
 
 	void setupUI();
@@ -30,6 +29,8 @@ private:
 
 	std::vector<std::vector<sf::RectangleShape>> gridRectangles;
 	std::vector<Tile> tileBag;
+	std::vector<Tile> player1Hands;
+	std::vector<Tile> Player2Hands;
 
 	int row = 21;
 	int col = 24;

@@ -29,9 +29,6 @@ void Board::render(sf::RenderWindow& m_window)
     m_window.draw(m_tileHolder[0]);
     m_window.draw(m_tileHolder[1]);
 
-    initializeTileHolderGrid(m_window, m_tileHolder[0]);
-    initializeTileHolderGrid(m_window, m_tileHolder[1]);
-
     sf::Vector2f boxBagPosition = m_boxBagForTextUI.getPosition();
     std::string numTiles = std::to_string(tileBag.size());
     m_bagText.setString(numTiles);
@@ -44,6 +41,9 @@ void Board::render(sf::RenderWindow& m_window)
         m_window.draw(m_bagUI);
         drawGridAndTilesInBag(m_window, m_bagUI, tileBag);
     }
+
+    drawGridAndTileInHolder(m_window, m_tileHolder[0], player1Hands);
+    drawGridAndTileInHolder(m_window, m_tileHolder[1], Player2Hands);
 }
 
 void Board::initializeGrid()
@@ -63,30 +63,6 @@ void Board::initializeGrid()
         }
     }
 }
-
-void Board::initializeTileHolderGrid(sf::RenderWindow& m_window, const sf::RectangleShape& tileHolder)
-{
-    const float cellSize = 40.0f;
-    const float tileSpacing = 10.0f;
-
-    const float holderX = tileHolder.getPosition().x - tileHolder.getSize().x / 2.0f + 5;
-    const float holderY = tileHolder.getPosition().y - tileHolder.getSize().y / 2.0f;
-
-    sf::RectangleShape cell(sf::Vector2f(cellSize, cellSize));
-    cell.setFillColor(sf::Color::Transparent);
-    cell.setOutlineThickness(2.0f);
-    cell.setOutlineColor(sf::Color::Black);
-
-    for (int i = 0; i < 6; ++i)
-    {
-        float posX = holderX + i * (cellSize + tileSpacing);
-        float posY = holderY + 30;
-
-        cell.setPosition(posX, posY);
-        m_window.draw(cell);
-    }
-}
-
 
 void Board::fillBag()
 {
@@ -112,9 +88,74 @@ void Board::fillBag()
 
 void Board::randomTilesInHolder()
 {
-   
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dis(0, static_cast<int>(tileBag.size()) - 1);
+
+    const int maxTilesPerPlayer = 6;
+
+    while (!tileBag.empty() && (player1Hands.size() < maxTilesPerPlayer || Player2Hands.size() < maxTilesPerPlayer))
+    {
+        if (player1Hands.size() < maxTilesPerPlayer)
+        {
+            if (!tileBag.empty()) 
+            {
+                int randomIndex = dis(gen);
+                if (randomIndex >= 0 && randomIndex < static_cast<int>(tileBag.size())) 
+                {
+                    player1Hands.push_back(tileBag[randomIndex]);
+                    tileBag.erase(tileBag.begin() + randomIndex);
+                }
+            }
+        }
+        if (Player2Hands.size() < maxTilesPerPlayer)
+        {
+            if (!tileBag.empty()) 
+            {
+                int randomIndex = dis(gen);
+                if (randomIndex >= 0 && randomIndex < static_cast<int>(tileBag.size()))
+                {
+                    Player2Hands.push_back(tileBag[randomIndex]);
+                    tileBag.erase(tileBag.begin() + randomIndex);
+                }
+            }
+        }
+    }
+    std::cout << "Tiles in tile bag after distribution: " << tileBag.size() << std::endl;
 }
 
+void Board::drawGridAndTileInHolder(sf::RenderWindow& m_window, const sf::RectangleShape& tileHolder, const std::vector<Tile>& tiles)
+{
+    const float cellSize = 40.0f;
+    const float tileSpacing = 10.0f;
+
+    const float holderX = tileHolder.getPosition().x - tileHolder.getSize().x / 2.0f + 5;
+    const float holderY = tileHolder.getPosition().y - tileHolder.getSize().y / 2.0f;
+
+    sf::RectangleShape cell(sf::Vector2f(cellSize, cellSize));
+    cell.setFillColor(sf::Color::Transparent);
+    cell.setOutlineThickness(2.0f);
+    cell.setOutlineColor(sf::Color::Black);
+
+    for (size_t i = 0; i < tiles.size(); ++i)
+    {
+        float posX = holderX + i * (cellSize + tileSpacing);
+        float posY = holderY + 30;
+
+        cell.setPosition(posX, posY);
+        m_window.draw(cell);
+
+        sf::Shape* tileShape = tiles[i].getTileShape();
+        if (tileShape)
+        {
+            float tileX = posX + 20;
+            float tileY = posY + 20;
+
+            tileShape->setPosition(tileX, tileY);
+            m_window.draw(*tileShape);
+        }
+    }
+}
 
 void Board::drawGridAndTilesInBag(sf::RenderWindow& m_window, const sf::RectangleShape& bagUI, const std::vector<Tile>& tileBag)
 {
@@ -149,8 +190,14 @@ void Board::drawGridAndTilesInBag(sf::RenderWindow& m_window, const sf::Rectangl
         }
     }
 
+    int tileCount = 0;
     for (const auto& tile : tileBag)
     {
+        if (tileCount >= maxRows * maxCols)
+        {
+            break; // Limit reached, exit loop
+        }
+
         sf::Shape* tileShape = tile.getTileShape();
         if (tileShape)
         {
@@ -167,10 +214,7 @@ void Board::drawGridAndTilesInBag(sf::RenderWindow& m_window, const sf::Rectangl
                 currentRow++;
             }
 
-            if (currentRow >= maxRows)
-            {
-                break;
-            }
+            tileCount++;
         }
     }
 }

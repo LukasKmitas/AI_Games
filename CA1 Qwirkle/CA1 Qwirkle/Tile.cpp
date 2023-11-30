@@ -4,6 +4,8 @@ Tile::Tile()
 {
 	m_isPlaced = false;
 	m_tileShape = nullptr;
+    m_shape = TileShape::Empty;
+    m_color = TileColor::Empty;
 }
 
 Tile::~Tile()
@@ -46,8 +48,8 @@ void Tile::createTileShape()
         m_tileShape = new sf::ConvexShape(16);
         for (int i = 0; i < 16; ++i) 
         {
-            float angle = i * 45 * 3.14159265 / 180; // 45 degrees between points
-            float radius = (i % 2 == 0) ? 20 : 10; // Alternate outer and inner radius
+            float angle = i * 45 * 3.14159265 / 180;
+            int radius = (i % 2 == 0) ? 20 : 10;
             dynamic_cast<sf::ConvexShape*>(m_tileShape)->setPoint(i, sf::Vector2f(25 + radius * std::cos(angle), 25 + radius * std::sin(angle)));
         }
         m_tileShape->setOrigin(25, 25);
@@ -56,8 +58,8 @@ void Tile::createTileShape()
         m_tileShape = new sf::ConvexShape(16);
         for (int i = 0; i < 16; ++i) 
         {
-            float angle = i * 22.5 * 3.14159265 / 180; // 22.5 degrees between points
-            float radius = (i % 2 == 0) ? 20 : 10; // Alternate outer and inner radius
+            float angle = i * 22.5 * 3.14159265 / 180;
+            int radius = (i % 2 == 0) ? 20 : 10;
             dynamic_cast<sf::ConvexShape*>(m_tileShape)->setPoint(i, sf::Vector2f(25 + radius * std::cos(angle), 25 + radius * std::sin(angle)));
         }
         m_tileShape->setOrigin(25, 25);
@@ -66,11 +68,11 @@ void Tile::createTileShape()
         m_tileShape = new sf::ConvexShape(8);
         for (int i = 0; i < 8; ++i) 
         {
-            float angle = i * 45 * 3.14159265 / 180; // 45 degrees between points
-            float radius = (i % 2 == 0) ? 20 : 10; // Alternate outer and inner radius
+            float angle = i * 45 * 3.14159265 / 180;
+            int radius = (i % 2 == 0) ? 20 : 10;
             dynamic_cast<sf::ConvexShape*>(m_tileShape)->setPoint(i, sf::Vector2f(25 + radius * std::cos(angle), 25 + radius * std::sin(angle)));
         }
-        dynamic_cast<sf::ConvexShape*>(m_tileShape)->setRotation(45); // Rotate by 45 degrees to resemble an X
+        dynamic_cast<sf::ConvexShape*>(m_tileShape)->setRotation(45);
         m_tileShape->setOrigin(25, 25);
         break;
     default:
@@ -93,7 +95,7 @@ void Tile::createTileShape()
             m_tileShape->setFillColor(sf::Color::Yellow);
             break;
         case TileColor::Green:
-            m_tileShape->setFillColor(sf::Color::Green);
+            m_tileShape->setFillColor(sf::Color(10,180,0));
             break;
         case TileColor::Blue:
             m_tileShape->setFillColor(sf::Color::Blue);

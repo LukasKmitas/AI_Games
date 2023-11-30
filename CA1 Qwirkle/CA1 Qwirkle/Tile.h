@@ -14,6 +14,7 @@ enum class TileShape
 
 enum class TileColor 
 {
+    Empty,
     Red,
     Orange,
     Yellow,
