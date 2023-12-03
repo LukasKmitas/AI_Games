@@ -36,6 +36,15 @@ void Board::render(sf::RenderWindow& m_window)
         boxBagPosition.y + m_boxBagForTextUI.getSize().y / 2.0f - m_bagText.getCharacterSize());
     m_window.draw(m_bagText);
 
+    for (const auto& tile : tilesOnBoard) 
+    {
+        sf::Shape* tileShape = tile.getTileShape();
+        if (tileShape) 
+        {
+            m_window.draw(*tileShape);
+        }
+    }
+
     if (m_toggleBag)
     {
         m_window.draw(m_bagUI);
@@ -52,13 +61,23 @@ void Board::initializeGrid()
 
     const float rectSize = tileSize - 2;
 
-    for (int i = 0; i < row; ++i) 
+    for (int i = 0; i < row; ++i)
     {
-        for (int j = 0; j < col; ++j) 
+        for (int j = 0; j < col; ++j)
         {
             sf::RectangleShape rect(sf::Vector2f(rectSize, rectSize));
             rect.setPosition(j * tileSize + 1, i * tileSize + 1);
-            rect.setFillColor(sf::Color::White);
+
+            if (j == col / 2 && i == row / 2) 
+            {
+                rect.setFillColor(sf::Color(200, 200, 200));
+            }
+            else 
+            {
+                rect.setFillColor(sf::Color::White);
+            }
+            rect.setOutlineThickness(1.0f);
+            rect.setOutlineColor(sf::Color::Black);
             gridRectangles[i][j] = rect;
         }
     }
@@ -132,18 +151,15 @@ void Board::drawGridAndTileInHolder(sf::RenderWindow& m_window, const sf::Rectan
     const float holderX = tileHolder.getPosition().x - tileHolder.getSize().x / 2.0f + 5;
     const float holderY = tileHolder.getPosition().y - tileHolder.getSize().y / 2.0f;
 
-    sf::RectangleShape cell(sf::Vector2f(cellSize, cellSize));
-    cell.setFillColor(sf::Color::Transparent);
-    cell.setOutlineThickness(2.0f);
-    cell.setOutlineColor(sf::Color::Black);
-
     for (size_t i = 0; i < tiles.size(); ++i)
     {
         float posX = holderX + i * (cellSize + tileSpacing);
         float posY = holderY + 30;
 
-        cell.setPosition(posX, posY);
-        m_window.draw(cell);
+        HolderCell cell(sf::Vector2f(posX, posY), cellSize);
+        cells.push_back(cell);
+
+        m_window.draw(cell.cell);
 
         sf::Shape* tileShape = tiles[i].getTileShape();
         if (tileShape)
@@ -153,6 +169,15 @@ void Board::drawGridAndTileInHolder(sf::RenderWindow& m_window, const sf::Rectan
 
             tileShape->setPosition(tileX, tileY);
             m_window.draw(*tileShape);
+        }
+    }
+
+    for (size_t i = 0; i < cells.size(); ++i)
+    {
+        if (cells[i].selected)
+        {
+            cells[i].cell.setOutlineColor(sf::Color::Yellow);
+            m_window.draw(cells[i].cell);
         }
     }
 }
@@ -219,6 +244,171 @@ void Board::drawGridAndTilesInBag(sf::RenderWindow& m_window, const sf::Rectangl
     }
 }
 
+void Board::selectedTile(sf::Vector2f mousePosition)
+{
+    if (m_tileHolder[0].getGlobalBounds().contains(mousePosition))
+    {
+        for (size_t i = 0; i < player1Hands.size(); ++i)
+        {
+            float posX = m_tileHolder[0].getPosition().x - m_tileHolder[0].getSize().x / 2.0f + i * (40.0f + 10.0f) + 20.0f;
+            float posY = m_tileHolder[0].getPosition().y - m_tileHolder[0].getSize().y / 2.0f + 30.0f;
+
+            sf::FloatRect tileBounds(posX, posY, 40.0f, 40.0f);
+
+            if (tileBounds.contains(mousePosition))
+            {
+                std::cout << "Tile " << i << " selected from Player 1's holder" << std::endl;
+                cells[i].selected = true;
+                selectedTileIndex = i;
+                //std::cout << "Current Tile - Shape: " << static_cast<int>(player1Hands[i].getShape()) << ", Color: " << static_cast<int>(player1Hands[i].getColor()) << std::endl;
+                std::cout << "Shape: " << (player1Hands[i].getShapeAsString()) << ", Color: " << (player1Hands[i].getColorAsString()) << std::endl;
+            }
+            else
+            {
+                cells[i].selected = false;
+                tileSelected = true;
+            }
+        }
+    }
+    if (tileSelected)
+    {
+        sf::Vector2i gridPosition = getGridPosition(mousePosition);
+        newGridPosition = gridPosition;
+        if (isValidPlacement(gridPosition))
+        {
+            float posX = gridPosition.x * tileSize + 25;
+            float posY = gridPosition.y * tileSize + 25;
+            gridRectangles[gridPosition.y][gridPosition.x].setFillColor(sf::Color::Black);
+            sf::Shape* tileShape = player1Hands[selectedTileIndex].getTileShape();
+            if (tileShape)
+            {
+                tileShape->setPosition(posX, posY);
+                player1Hands[selectedTileIndex].setPosition(newGridPosition);
+                tilesOnBoard.push_back(player1Hands[selectedTileIndex]);
+                player1Hands.erase(player1Hands.begin() + selectedTileIndex);
+                cells[selectedTileIndex].selected = false;
+                selectedTileIndex = -1;
+                tileSelected = false;
+            }
+        }
+    }
+}
+
+bool Board::isValidPlacement(sf::Vector2i gridPosition)
+{
+    if (startingGame) 
+    {
+        if (gridPosition.x == col / 2 && gridPosition.y == row / 2) 
+        {
+            startingGame = false;
+            return true;
+        }
+        return false;
+    }
+    else 
+    {
+        checkIfAdjacent();
+        if (rulesChecked && isValidColorLine(tilesOnBoard) && isValidShapeLine(tilesOnBoard))
+        {
+            return true;
+        }
+        return false;
+    }
+}
+
+void Board::checkIfAdjacent()
+{
+    if (!tilesOnBoard.empty())
+    {
+        bool adjacent = false;
+        sf::Vector2i adjacentPositions[] =
+        {
+            {newGridPosition.x, newGridPosition.y - 1}, // above
+            {newGridPosition.x, newGridPosition.y + 1}, // below
+            {newGridPosition.x - 1, newGridPosition.y}, // left
+            {newGridPosition.x + 1, newGridPosition.y}  // right
+        };
+
+        for (const auto& position : adjacentPositions)
+        {
+            if (position.x >= 0 && position.x < col &&
+                position.y >= 0 && position.y < row)
+            {
+                for (const auto& tile : tilesOnBoard)
+                {
+                    sf::Vector2i gridPosition = tile.getPosition();
+                    sf::Vector2i tilePosition(static_cast<float>(gridPosition.x), static_cast<float>(gridPosition.y));
+                    if (position == tilePosition)
+                    {
+                        adjacent = true;
+                        std::cout << "Adjacent found" << std::endl;
+                        std::cout << "Adjacent Tile - Shape: " << (tile.getShapeAsString()) << ", Color: " << (tile.getColorAsString()) << std::endl;
+                        break;
+                    }
+                }
+                if (adjacent)
+                {
+                    rulesChecked = true;
+                    break;
+                }
+            }
+        }
+        if (!adjacent)
+        {
+            rulesChecked = false;
+        }
+    }
+}
+
+bool Board::isValidColorLine(const std::vector<Tile>& line)
+{
+    std::unordered_map<TileShape, int> shapesCount;
+
+    for (const auto& tile : line)
+    {
+        TileShape shape = tile.getShape();
+        TileColor color = tile.getColor();
+
+        if (shapesCount.find(shape) != shapesCount.end() && shapesCount[shape] > 0)
+        {
+            return false;
+        }
+        else
+        {
+            shapesCount[shape]++;
+        }
+    }
+    return true;
+}
+
+bool Board::isValidShapeLine(const std::vector<Tile>& line)
+{
+    std::unordered_map<TileColor, int> colorsCount;
+
+    for (const auto& tile : line)
+    {
+        TileShape shape = tile.getShape();
+        TileColor color = tile.getColor();
+
+        if (colorsCount.find(color) != colorsCount.end() && colorsCount[color] > 0)
+        {
+            return false;
+        }
+        else
+        {
+            colorsCount[color]++;
+        }
+    }
+    return true;
+}
+
+sf::Vector2i Board::getGridPosition(sf::Vector2f mousePosition)
+{
+    int gridX = static_cast<int>(mousePosition.x / tileSize);
+    int gridY = static_cast<int>(mousePosition.y / tileSize);
+    return sf::Vector2i(gridX, gridY);
+}
+
 void Board::setupUI()
 {
     m_bottomUI.setFillColor(sf::Color::Cyan);
@@ -277,4 +467,9 @@ void Board::toggleBag()
 {
     std::cout << "bag opened" << std::endl;
     m_toggleBag = !m_toggleBag;
+}
+
+void Board::endTurn()
+{
+    randomTilesInHolder();
 }

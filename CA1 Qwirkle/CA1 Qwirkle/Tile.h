@@ -35,15 +35,34 @@ public:
 
     sf::Shape* getTileShape() const;
 
-private:
+    void setPosition(const sf::Vector2i& newPosition);
+
+    sf::Vector2i getPosition() const
+    {
+        return position;
+    }
+    TileShape getShape() const 
+    {
+        return m_shape;
+    }
+    TileColor getColor() const 
+    {
+        return m_color;
+    }
+
+    std::string getShapeAsString() const;
+    std::string getColorAsString() const;
 
     TileShape m_shape;
     TileColor m_color;
+
+private:
 
     sf::Shape* m_tileShape;
 
     void createTileShape();
 
+    sf::Vector2i position;
 
     bool m_isPlaced;
 

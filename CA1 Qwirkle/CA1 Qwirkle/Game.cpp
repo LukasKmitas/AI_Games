@@ -44,6 +44,14 @@ void Game::processEvents()
 		{
 			processKeys(newEvent);
 		}
+		if (sf::Event::MouseButtonPressed == newEvent.type)
+		{
+			if (newEvent.mouseButton.button == sf::Mouse::Left)
+			{
+				sf::Vector2f mousePos(static_cast<float>(newEvent.mouseButton.x), static_cast<float>(newEvent.mouseButton.y));
+				m_board.selectedTile(mousePos);
+			}
+		}
 	}
 }
 
@@ -56,6 +64,10 @@ void Game::processKeys(sf::Event t_event)
 	if (sf::Keyboard::Num1 == t_event.key.code) // Toggles the bag
 	{
 		m_board.toggleBag();
+	}
+	if (sf::Keyboard::Num2 == t_event.key.code)
+	{
+		m_board.endTurn();
 	}
 }
 

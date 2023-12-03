@@ -24,7 +24,37 @@ void Tile::setColor(TileColor color)
     createTileShape();
 }
 
-void Tile::createTileShape() 
+std::string Tile::getShapeAsString() const
+{
+    switch (m_shape)
+    {
+    case TileShape::Empty: return "Empty";
+    case TileShape::Circle: return "Circle";
+    case TileShape::Square: return "Square";
+    case TileShape::Diamond: return "Diamond";
+    case TileShape::Clover: return "Clover";
+    case TileShape::EightStar: return "EightStar";
+    case TileShape::FourthStar: return "FourthStar";
+    default: return "Unknown";
+    }
+}
+
+std::string Tile::getColorAsString() const
+{
+    switch (m_color) 
+    {
+    case TileColor::Empty: return "Empty";
+    case TileColor::Red: return "Red";
+    case TileColor::Orange: return "Orange";
+    case TileColor::Yellow: return "Yellow";
+    case TileColor::Green: return "Green";
+    case TileColor::Blue: return "Blue";
+    case TileColor::Purple: return "Purple";
+    default: return "Unknown";
+    }
+}
+
+void Tile::createTileShape()
 {
     switch (m_shape)
     {
@@ -112,4 +142,9 @@ void Tile::createTileShape()
 sf::Shape* Tile::getTileShape() const 
 {
     return m_tileShape;
+}
+
+void Tile::setPosition(const sf::Vector2i& newPosition)
+{
+    position = newPosition;
 }
