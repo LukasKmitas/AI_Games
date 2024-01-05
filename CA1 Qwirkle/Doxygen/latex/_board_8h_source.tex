@@ -1,0 +1,114 @@
+\doxysection{Board.\+h}
+\hypertarget{_board_8h_source}{}\label{_board_8h_source}\index{CA1 Qwirkle/Board.h@{CA1 Qwirkle/Board.h}}
+\mbox{\hyperlink{_board_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_global_8h}{Global.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_tile_8h}{Tile.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00009}\mbox{\hyperlink{struct_holder_cell}{00009}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_holder_cell}{HolderCell}}\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00011}\mbox{\hyperlink{struct_holder_cell_a96c0464a3009419d742778879396c82c}{00011}}\ \ \ \ \ sf::RectangleShape\ \mbox{\hyperlink{struct_holder_cell_a96c0464a3009419d742778879396c82c}{cell}};}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00012}\mbox{\hyperlink{struct_holder_cell_a0deb8f6fc5a29eba01ba535ddd9f00d6}{00012}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_holder_cell_a0deb8f6fc5a29eba01ba535ddd9f00d6}{selected}};}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00014}\mbox{\hyperlink{struct_holder_cell_a8efd3e7353f111da10753c8a18cf034d}{00014}}\ \ \ \ \ \mbox{\hyperlink{struct_holder_cell_a8efd3e7353f111da10753c8a18cf034d}{HolderCell}}(\textcolor{keyword}{const}\ sf::Vector2f\&\ position,\ \textcolor{keywordtype}{float}\ size)\ :\ \mbox{\hyperlink{struct_holder_cell_a0deb8f6fc5a29eba01ba535ddd9f00d6}{selected}}(false)\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00015}00015\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00016}00016\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_holder_cell_a96c0464a3009419d742778879396c82c}{cell}}.setSize(sf::Vector2f(size,\ size));}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00017}00017\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_holder_cell_a96c0464a3009419d742778879396c82c}{cell}}.setPosition(position);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00018}00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_holder_cell_a96c0464a3009419d742778879396c82c}{cell}}.setFillColor(sf::Color::Transparent);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00019}00019\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_holder_cell_a96c0464a3009419d742778879396c82c}{cell}}.setOutlineThickness(2.0f);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00020}00020\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_holder_cell_a96c0464a3009419d742778879396c82c}{cell}}.setOutlineColor(sf::Color::Black);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00021}00021\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00022}00022\ \};}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00024}\mbox{\hyperlink{class_board}{00024}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_board}{Board}}}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00026}00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00027}00027\ \ \ \ \ \mbox{\hyperlink{class_board_a9ee491d4fea680cf69b033374a9fdfcb}{Board}}();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00028}00028\ \ \ \ \ \mbox{\hyperlink{class_board_af73f45730119a1fd8f6670f53f959e68}{\string~Board}}();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00030}00030\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_ad4a95039a939022f9c4a21c5d39f6953}{render}}(sf::RenderWindow\&\ m\_window);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00031}00031\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_aa170cb05bb38de48e19a72b51d898eca}{update}}();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00033}00033\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_a6844f6db8700ef11cbafb72e62217c00}{toggleBag}}();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00034}00034\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_ae93d5b98412d311f24f3419ccece639e}{endTurn}}();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00036}00036\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_a02c127dccaa52482de6d376e49bcc28c}{AITurn}}();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00037}00037\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_ac78675483e3b3871754719249f7bb3e3}{AIMultiplePlacements}}();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00039}00039\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_board_adf9ddfcae7d2394882ec6cd58c416818}{miniMax}}(\textcolor{keywordtype}{int}\ depth,\ \textcolor{keywordtype}{bool}\ maximizingPlayer);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00040}00040\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_board_a836f69c030b03fc4183d9c745a07b10e}{evaluateBoard}}();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00041}00041\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_aa39ca005ea170a5e2108faed0fc7a1b7}{findBestMove}}();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00043}00043\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_adbb58f3886f57419f64f340c72e32de9}{selectedTile}}(sf::Vector2f\ mousePosition,\ \textcolor{keywordtype}{int}\ currentPlayer);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00045}00045\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00047}00047\ \ \ \ \ sf::Shape*\ tileShape;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00048}00048\ \ \ \ \ \mbox{\hyperlink{class_tile}{Tile}}\ currentTile;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00050}00050\ \ \ \ \ \textcolor{keywordtype}{void}\ initializeGrid();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00051}00051\ \ \ \ \ \textcolor{keywordtype}{void}\ fillBag();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00052}00052\ \ \ \ \ \textcolor{keywordtype}{void}\ randomTilesInHolder();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00054}00054\ \ \ \ \ \textcolor{keywordtype}{void}\ drawGridAndTileInHolder(sf::RenderWindow\&\ m\_window,\ \textcolor{keyword}{const}\ sf::RectangleShape\&\ tileHolder,\ \textcolor{keyword}{const}\ std::vector<Tile>\&\ tiles);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00055}00055\ \ \ \ \ \textcolor{keywordtype}{void}\ drawGridAndTilesInBag(sf::RenderWindow\&\ m\_window,\ \textcolor{keyword}{const}\ sf::RectangleShape\&\ bagUI,\ \textcolor{keyword}{const}\ std::vector<Tile>\&\ tileBag);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00057}00057\ \ \ \ \ \textcolor{keywordtype}{bool}\ isValidPlacement(sf::Vector2i\ gridPosition,\ \textcolor{keywordtype}{int}\ currentPlayer);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00058}00058\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkAdjacentLines(sf::Vector2i\ gridPosition,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_tile}{Tile}}\&\ currentTile);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00059}00059\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkLine(\textcolor{keyword}{const}\ sf::Vector2i\&\ gridPosition,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_tile}{Tile}}\&\ currentTile,\ \textcolor{keyword}{const}\ sf::Vector2i\&\ direction);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00061}00061\ \ \ \ \ sf::Vector2i\ getGridPosition(sf::Vector2f\ mousePosition);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00063}00063\ \ \ \ \ \textcolor{keywordtype}{void}\ setupUI();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00064}00064\ \ \ \ \ \textcolor{keywordtype}{void}\ setupFontAndText();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00065}00065\ \ \ \ \ \textcolor{keywordtype}{void}\ updateScores();}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00067}00067\ \ \ \ \ \textcolor{keywordtype}{int}\ calculateScoreForPlacement(\textcolor{keyword}{const}\ sf::Vector2i\&\ gridPosition,\ \textcolor{keywordtype}{int}\ currentPlayer);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00068}00068\ \ \ \ \ \textcolor{keywordtype}{bool}\ isSameTile(\textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ currentPlayer);}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00070}00070\ \ \ \ \ std::vector<std::vector<sf::RectangleShape>>\ gridRectangles;\ \textcolor{comment}{//\ main\ Board\ grid}}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00071}00071\ \ \ \ \ std::vector<Tile>\ tileBag;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00072}00072\ \ \ \ \ std::vector<Tile>\ tilesOnBoard;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00073}00073\ \ \ \ \ std::vector<Tile>\ player1Hands;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00074}00074\ \ \ \ \ std::vector<Tile>\ player2Hands;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00075}00075\ \ \ \ \ std::vector<HolderCell>\ cells;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00077}00077\ \ \ \ \ \textcolor{keywordtype}{int}\ row\ =\ 21;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00078}00078\ \ \ \ \ \textcolor{keywordtype}{int}\ col\ =\ 24;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00079}00079\ \ \ \ \ \textcolor{keywordtype}{int}\ player1Score\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00080}00080\ \ \ \ \ \textcolor{keywordtype}{int}\ player2Score\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{int}\ selectedTileIndex\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00082}00082\ \ \ \ \ \textcolor{keywordtype}{int}\ playerTurn;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00084}00084\ \ \ \ \ \textcolor{keywordtype}{float}\ tileSize\ =\ 50.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00085}00085\ \ \ \ \ \textcolor{keywordtype}{float}\ posX;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00086}00086\ \ \ \ \ \textcolor{keywordtype}{float}\ posY;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00088}00088\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_toggleBag\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00089}00089\ \ \ \ \ \textcolor{keywordtype}{bool}\ startingGame\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00090}00090\ \ \ \ \ \textcolor{keywordtype}{bool}\ tileSelected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00091}00091\ \ \ \ \ \textcolor{keywordtype}{bool}\ ifAdjacentChecked\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00093}00093\ \ \ \ \ sf::Vector2i\ newGridPosition;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00095}00095\ \ \ \ \ sf::RectangleShape\ m\_bottomUI;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00096}00096\ \ \ \ \ sf::RectangleShape\ m\_seperationLineUI;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00097}00097\ \ \ \ \ sf::RectangleShape\ m\_boxBagForTextUI;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00098}00098\ \ \ \ \ sf::RectangleShape\ m\_tileHolder[2];}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00099}00099\ \ \ \ \ sf::RectangleShape\ m\_bagUI;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00101}00101\ \ \ \ \ sf::Font\ m\_ArialBlackfont;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00103}00103\ \ \ \ \ sf::Text\ m\_bagText;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00104}00104\ \ \ \ \ sf::Text\ m\_player1ScoreText;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00105}00105\ \ \ \ \ sf::Text\ m\_player2ScoreText;}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00107}00107\ \};}
+\DoxyCodeLine{\Hypertarget{_board_8h_source_l00108}00108\ }
+
+\end{DoxyCode}

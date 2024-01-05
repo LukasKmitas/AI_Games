@@ -1,0 +1,80 @@
+\doxysection{Game.\+h}
+\hypertarget{_game_8h_source}{}\label{_game_8h_source}\index{CA1 Qwirkle/Game.h@{CA1 Qwirkle/Game.h}}
+\mbox{\hyperlink{_game_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ GAME\_HPP}}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ GAME\_HPP}}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <SFML/Graphics.hpp>}}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_global_8h}{Global.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_board_8h}{Board.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00008}\mbox{\hyperlink{class_game}{00008}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game}{Game}}}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00010}00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00011}00011\ \ \ \ \ \mbox{\hyperlink{class_game_ad59df6562a58a614fda24622d3715b65}{Game}}();}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00012}00012\ \ \ \ \ \mbox{\hyperlink{class_game_ae3d112ca6e0e55150d2fdbc704474530}{\string~Game}}();}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00014}00014\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a1ab78f5ed0d5ea879157357cf2fb2afa}{run}}();}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00016}00016\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00017}00017\ \ \ \ \ \mbox{\hyperlink{class_board}{Board}}\ m\_board;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00019}00019\ \ \ \ \ \textcolor{keyword}{enum\ class}\ GameState\ \{MAIN\_MENU,\ GAMEPLAY\};}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00020}00020\ \ \ \ \ \textcolor{keyword}{enum\ class}\ PlayerTurn\ \{\ PLAYER\_1,\ PLAYER\_2,\ AI\ \};}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00021}00021\ \ \ \ \ \textcolor{keyword}{enum\ class}\ GameMode\ \{\ PLAYER\_VS\_PLAYER,\ PLAYER\_VS\_AI\ \};}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00022}00022\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Difficulty\ \{\ EASY,\ MEDIUM,\ HARD\ \};}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00024}00024\ \ \ \ \ GameState\ currentState\ =\ GameState::MAIN\_MENU;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00025}00025\ \ \ \ \ PlayerTurn\ currentPlayerTurn\ =\ PlayerTurn::PLAYER\_1;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00026}00026\ \ \ \ \ GameMode\ currentGameMode\ =\ GameMode::PLAYER\_VS\_PLAYER;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00027}00027\ \ \ \ \ Difficulty\ currentDifficulty\ =\ Difficulty::EASY;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00029}00029\ \ \ \ \ \textcolor{keywordtype}{void}\ processEvents();}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00030}00030\ \ \ \ \ \textcolor{keywordtype}{void}\ processKeys(sf::Event\ t\_event);}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00031}00031\ \ \ \ \ \textcolor{keywordtype}{void}\ update(sf::Time\ t\_deltaTime);}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00032}00032\ \ \ \ \ \textcolor{keywordtype}{void}\ render();}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00034}00034\ \ \ \ \ \textcolor{keywordtype}{void}\ processPlayer1Turn(sf::Event\ t\_event);}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00035}00035\ \ \ \ \ \textcolor{keywordtype}{void}\ processPlayer2Turn(sf::Event\ t\_event);}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00036}00036\ \ \ \ \ \textcolor{keywordtype}{void}\ processAITurn();}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00038}00038\ \ \ \ \ \textcolor{keywordtype}{void}\ setGameMode(GameMode\ mode);}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00039}00039\ \ \ \ \ \textcolor{keywordtype}{void}\ setDifficulty(Difficulty\ level);}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00041}00041\ \ \ \ \ \textcolor{keywordtype}{void}\ initGameStateButtons();}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00042}00042\ \ \ \ \ \textcolor{keywordtype}{void}\ handleGaneModeButtonClick(sf::Vector2f\ mousePos);}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00043}00043\ \ \ \ \ \textcolor{keywordtype}{void}\ initDifficultyButtons();}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00044}00044\ \ \ \ \ \textcolor{keywordtype}{void}\ handleDifficultyButtonClick(sf::Vector2f\ mousePos);}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00046}00046\ \ \ \ \ \textcolor{keywordtype}{float}\ buttonWidth\ =\ 200;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00047}00047\ \ \ \ \ \textcolor{keywordtype}{float}\ buttonHeight\ =\ 50;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00048}00048\ \ \ \ \ \textcolor{keywordtype}{float}\ buttonSpacing\ =\ 20;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00050}00050\ \ \ \ \ sf::RectangleShape\ m\_gameModeArea;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00051}00051\ \ \ \ \ sf::RectangleShape\ m\_gameDifficultyArea;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00053}00053\ \ \ \ \ sf::RectangleShape\ m\_buttonPlayerVsPlayer;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00054}00054\ \ \ \ \ sf::RectangleShape\ m\_buttonPlayerVsAI;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00055}00055\ \ \ \ \ sf::RectangleShape\ m\_buttonEasy;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00056}00056\ \ \ \ \ sf::RectangleShape\ m\_buttonMedium;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00057}00057\ \ \ \ \ sf::RectangleShape\ m\_buttonHard;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00059}00059\ \ \ \ \ sf::Font\ m\_font;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00060}00060\ \ \ \ \ sf::Text\ m\_gameModeAreaText;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00061}00061\ \ \ \ \ sf::Text\ m\_gameDifficultyAreaText;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00062}00062\ \ \ \ \ sf::Text\ m\_textPlayerVsPlayer;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00063}00063\ \ \ \ \ sf::Text\ m\_textPlayerVsAI;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00064}00064\ \ \ \ \ sf::Text\ m\_textEasy;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00065}00065\ \ \ \ \ sf::Text\ m\_textMedium;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00066}00066\ \ \ \ \ sf::Text\ m\_textHard;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00068}00068\ \ \ \ \ sf::RenderWindow\ m\_window;}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00070}00070\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_exitGame;\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00071}00071\ \};}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00073}00073\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_game_8h_source_l00074}00074\ }
+
+\end{DoxyCode}

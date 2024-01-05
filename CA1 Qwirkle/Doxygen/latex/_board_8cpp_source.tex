@@ -1,0 +1,824 @@
+\doxysection{Board.\+cpp}
+\hypertarget{_board_8cpp_source}{}\label{_board_8cpp_source}\index{CA1 Qwirkle/Board.cpp@{CA1 Qwirkle/Board.cpp}}
+\mbox{\hyperlink{_board_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_board_8h}{Board.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00003}\mbox{\hyperlink{class_board_a9ee491d4fea680cf69b033374a9fdfcb}{00003}}\ \mbox{\hyperlink{class_board_a9ee491d4fea680cf69b033374a9fdfcb}{Board::Board}}()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00005}00005\ \ \ \ \ setupFontAndText();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00006}00006\ \ \ \ \ setupUI();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00007}00007\ \ \ \ \ initializeGrid();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00008}00008\ \ \ \ \ fillBag();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00009}00009\ \ \ \ \ randomTilesInHolder();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00010}00010\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00012}\mbox{\hyperlink{class_board_af73f45730119a1fd8f6670f53f959e68}{00012}}\ \mbox{\hyperlink{class_board_af73f45730119a1fd8f6670f53f959e68}{Board::\string~Board}}()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00013}00013\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00014}00014\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00016}\mbox{\hyperlink{class_board_ad4a95039a939022f9c4a21c5d39f6953}{00016}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_ad4a95039a939022f9c4a21c5d39f6953}{Board::render}}(sf::RenderWindow\&\ m\_window)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00017}00017\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00018}00018\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ row\ :\ gridRectangles)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00019}00019\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ rect\ :\ row)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ m\_window.draw(rect);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00024}00024\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00025}00025\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00026}00026\ \ \ \ \ m\_window.draw(m\_bottomUI);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00027}00027\ \ \ \ \ m\_window.draw(m\_seperationLineUI);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00028}00028\ \ \ \ \ m\_window.draw(m\_boxBagForTextUI);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00029}00029\ \ \ \ \ m\_window.draw(m\_tileHolder[0]);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00030}00030\ \ \ \ \ m\_window.draw(m\_tileHolder[1]);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00032}00032\ \ \ \ \ sf::Vector2f\ boxBagPosition\ =\ m\_boxBagForTextUI.getPosition();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00033}00033\ \ \ \ \ std::string\ numTiles\ =\ std::to\_string(tileBag.size());}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00034}00034\ \ \ \ \ m\_bagText.setString(numTiles);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00035}00035\ \ \ \ \ m\_bagText.setPosition(boxBagPosition.x\ -\/\ m\_bagText.getLocalBounds().width\ /\ 2.0f,}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ boxBagPosition.y\ +\ m\_boxBagForTextUI.getSize().y\ /\ 2.0f\ -\/\ m\_bagText.getCharacterSize());}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00037}00037\ \ \ \ \ m\_window.draw(m\_bagText);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00039}00039\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tile\ :\ tilesOnBoard)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00040}00040\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ sf::Shape*\ tileShape\ =\ tile.getTileShape();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileShape)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ m\_window.draw(*tileShape);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00046}00046\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_toggleBag)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00049}00049\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ m\_window.draw(m\_bagUI);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ drawGridAndTilesInBag(m\_window,\ m\_bagUI,\ tileBag);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00052}00052\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00054}00054\ \ \ \ \ drawGridAndTileInHolder(m\_window,\ m\_tileHolder[0],\ player1Hands);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00055}00055\ \ \ \ \ drawGridAndTileInHolder(m\_window,\ m\_tileHolder[1],\ player2Hands);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00056}00056\ \ \ \ \ m\_window.draw(m\_player1ScoreText);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00057}00057\ \ \ \ \ m\_window.draw(m\_player2ScoreText);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00058}00058\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00060}\mbox{\hyperlink{class_board_aa170cb05bb38de48e19a72b51d898eca}{00060}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_aa170cb05bb38de48e19a72b51d898eca}{Board::update}}()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00061}00061\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00062}00062\ \ \ \ \ updateScores();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00063}00063\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00068}00068\ \textcolor{keywordtype}{void}\ Board::initializeGrid()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00069}00069\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00070}00070\ \ \ \ \ gridRectangles.resize(row,\ std::vector<sf::RectangleShape>(col));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00072}00072\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ rectSize\ =\ tileSize\ -\/\ 2;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00074}00074\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ row;\ ++i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00075}00075\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ col;\ ++j)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ sf::RectangleShape\ rect(sf::Vector2f(rectSize,\ rectSize));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ rect.setPosition(j\ *\ tileSize\ +\ 1,\ i\ *\ tileSize\ +\ 1);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (j\ ==\ col\ /\ 2\ \&\&\ i\ ==\ row\ /\ 2)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rect.setFillColor(sf::Color(200,\ 200,\ 200));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rect.setFillColor(sf::Color::White);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ rect.setOutlineThickness(1.0f);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ rect.setOutlineColor(sf::Color::Black);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ gridRectangles[i][j]\ =\ rect;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00093}00093\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00094}00094\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00099}00099\ \textcolor{keywordtype}{void}\ Board::fillBag()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00100}00100\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00101}00101\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ numShapes\ =\ 6;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00102}00102\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ numColors\ =\ 6;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00103}00103\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ setsPerTile\ =\ 3;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00105}00105\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ numShapes;\ ++i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00106}00106\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ numColors;\ ++j)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ k\ =\ 0;\ k\ <\ setsPerTile;\ ++k)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_tile}{Tile}}\ tile;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tile.\mbox{\hyperlink{class_tile_a23e09dc25280e91aadbad96b004602f3}{setShape}}(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{_tile_8h_a594f2c04d25518cc956b419b2dba8812}{TileShape}}\textcolor{keyword}{>}(i\ +\ 1));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tile.\mbox{\hyperlink{class_tile_a2b100755831ba8cfb56e624cafb2f083}{setColor}}(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{_tile_8h_a873597c2fefe89516b2e1c0569317b10}{TileColor}}\textcolor{keyword}{>}(j\ +\ 1));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileBag.push\_back(tile);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00118}00118\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00119}00119\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00124}00124\ \textcolor{keywordtype}{void}\ Board::randomTilesInHolder()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00125}00125\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00126}00126\ \ \ \ \ std::random\_device\ rd;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00127}00127\ \ \ \ \ std::mt19937\ gen(rd());}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00128}00128\ \ \ \ \ std::uniform\_int\_distribution<int>\ dis(0,\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(tileBag.size())\ -\/\ 1);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00130}00130\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ maxTilesPerPlayer\ =\ 6;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00132}00132\ \ \ \ \ \textcolor{keywordflow}{while}\ (!tileBag.empty()\ \&\&\ (player1Hands.size()\ <\ maxTilesPerPlayer\ ||\ player2Hands.size()\ <\ maxTilesPerPlayer))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00133}00133\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player1Hands.size()\ <\ maxTilesPerPlayer)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!tileBag.empty())\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ randomIndex\ =\ dis(gen);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (randomIndex\ >=\ 0\ \&\&\ randomIndex\ <\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(tileBag.size()))\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player1Hands.push\_back(tileBag[randomIndex]);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileBag.erase(tileBag.begin()\ +\ randomIndex);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player2Hands.size()\ <\ maxTilesPerPlayer)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!tileBag.empty())\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ randomIndex\ =\ dis(gen);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (randomIndex\ >=\ 0\ \&\&\ randomIndex\ <\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(tileBag.size()))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player2Hands.push\_back(tileBag[randomIndex]);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileBag.erase(tileBag.begin()\ +\ randomIndex);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00158}00158\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00159}00159\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Tiles\ in\ tile\ bag\ after\ distribution:\ "{}}\ <<\ tileBag.size()\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00160}00160\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00168}00168\ \textcolor{keywordtype}{void}\ Board::drawGridAndTileInHolder(sf::RenderWindow\&\ m\_window,\ \textcolor{keyword}{const}\ sf::RectangleShape\&\ tileHolder,\ \textcolor{keyword}{const}\ std::vector<Tile>\&\ tiles)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00169}00169\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00170}00170\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ cellSize\ =\ 40.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00171}00171\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ tileSpacing\ =\ 10.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00173}00173\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ holderX\ =\ tileHolder.getPosition().x\ -\/\ tileHolder.getSize().x\ /\ 2.0f\ +\ 5;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00174}00174\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ holderY\ =\ tileHolder.getPosition().y\ -\/\ tileHolder.getSize().y\ /\ 2.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00176}00176\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ tiles.size();\ ++i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00177}00177\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posX\ =\ holderX\ +\ i\ *\ (cellSize\ +\ tileSpacing);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posY\ =\ holderY\ +\ 30;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_holder_cell}{HolderCell}}\ cell(sf::Vector2f(posX,\ posY),\ cellSize);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ cells.push\_back(cell);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ m\_window.draw(cell.cell);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ sf::Shape*\ tileShape\ =\ tiles[i].getTileShape();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileShape)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ tileX\ =\ posX\ +\ 20;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ tileY\ =\ posY\ +\ 20;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ tileShape-\/>setPosition(tileX,\ tileY);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ m\_window.draw(*tileShape);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00195}00195\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00197}00197\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ cells.size();\ ++i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00198}00198\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cells[i].selected)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ cells[i].cell.setOutlineColor(sf::Color::Yellow);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ m\_window.draw(cells[i].cell);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00204}00204\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00205}00205\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00213}00213\ \textcolor{keywordtype}{void}\ Board::drawGridAndTilesInBag(sf::RenderWindow\&\ m\_window,\ \textcolor{keyword}{const}\ sf::RectangleShape\&\ bagUI,\ \textcolor{keyword}{const}\ std::vector<Tile>\&\ tileBag)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00214}00214\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00215}00215\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ startX\ =\ bagUI.getPosition().x\ -\/\ bagUI.getSize().x\ /\ 2.0f\ +\ 20.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00216}00216\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ startY\ =\ bagUI.getPosition().y\ -\/\ bagUI.getSize().y\ /\ 2.0f\ +\ 20.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00217}00217\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ maxCols\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(bagUI.getSize().x\ -\/\ 40.0f)\ /\ 50;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00218}00218\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ maxRows\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(bagUI.getSize().y\ -\/\ 40.0f)\ /\ 50;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00220}00220\ \ \ \ \ \textcolor{keywordtype}{float}\ cellSize\ =\ 50.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00221}00221\ \ \ \ \ \textcolor{keywordtype}{float}\ tileSpacingX\ =\ (bagUI.getSize().x\ -\/\ 40.0f\ -\/\ (maxCols\ *\ cellSize))\ /\ (maxCols\ -\/\ 1);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00222}00222\ \ \ \ \ \textcolor{keywordtype}{float}\ tileSpacingY\ =\ (bagUI.getSize().y\ -\/\ 40.0f\ -\/\ (maxRows\ *\ cellSize))\ /\ (maxRows\ -\/\ 1);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00224}00224\ \ \ \ \ \textcolor{keywordtype}{float}\ tileSize\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00226}00226\ \ \ \ \ \textcolor{keywordtype}{int}\ currentCol\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00227}00227\ \ \ \ \ \textcolor{keywordtype}{int}\ currentRow\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00228}00228\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00229}00229\ \ \ \ \ sf::RectangleShape\ cell(sf::Vector2f(cellSize,\ cellSize));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00230}00230\ \ \ \ \ cell.setFillColor(sf::Color::Transparent);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00231}00231\ \ \ \ \ cell.setOutlineThickness(1.0f);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00232}00232\ \ \ \ \ cell.setOutlineColor(sf::Color::White);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00234}00234\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ row\ =\ 0;\ row\ <\ maxRows;\ ++row)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00235}00235\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ col\ =\ 0;\ col\ <\ maxCols;\ ++col)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posX\ =\ startX\ +\ col\ *\ (cellSize\ +\ tileSpacingX);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posY\ =\ startY\ +\ row\ *\ (cellSize\ +\ tileSpacingY);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ cell.setPosition(posX,\ posY);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ m\_window.draw(cell);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00243}00243\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00244}00244\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00246}00246\ \ \ \ \ \textcolor{keywordtype}{int}\ tileCount\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00247}00247\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tile\ :\ tileBag)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00248}00248\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileCount\ >=\ maxRows\ *\ maxCols)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00250}00250\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \textcolor{comment}{//\ Limit\ reached,\ exit\ loop}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00252}00252\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ sf::Shape*\ tileShape\ =\ tile.\mbox{\hyperlink{class_tile_a770624042b284f217ee7f6979f633d14}{getTileShape}}();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileShape)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posX\ =\ startX\ +\ currentCol\ *\ (cellSize\ +\ tileSpacingX)\ +\ (cellSize\ -\/\ tileSize)\ /\ 2.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posY\ =\ startY\ +\ currentRow\ *\ (cellSize\ +\ tileSpacingY)\ +\ (cellSize\ -\/\ tileSize)\ /\ 2.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00259}00259\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ tileShape-\/>setPosition(posX,\ posY);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ m\_window.draw(*tileShape);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ currentCol++;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentCol\ >=\ maxCols)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ currentCol\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ currentRow++;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ tileCount++;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00271}00271\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00272}00272\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00273}00273\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00280}\mbox{\hyperlink{class_board_adbb58f3886f57419f64f340c72e32de9}{00280}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_adbb58f3886f57419f64f340c72e32de9}{Board::selectedTile}}(sf::Vector2f\ mousePosition,\ \textcolor{keywordtype}{int}\ currentPlayer)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00281}00281\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00282}00282\ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPlayer\ ==\ 1\ \&\&\ m\_tileHolder[0].getGlobalBounds().contains(mousePosition))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00283}00283\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ player1Hands.size();\ ++i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ posX\ =\ m\_tileHolder[0].getPosition().x\ -\/\ m\_tileHolder[0].getSize().x\ /\ 2.0f\ +\ i\ *\ (40.0f\ +\ 10.0f)\ +\ 20.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ posY\ =\ m\_tileHolder[0].getPosition().y\ -\/\ m\_tileHolder[0].getSize().y\ /\ 2.0f\ +\ 30.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00288}00288\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ sf::FloatRect\ tileBounds(posX,\ posY,\ 40.0f,\ 40.0f);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileBounds.contains(mousePosition))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nTile\ "{}}\ <<\ i\ <<\ \textcolor{stringliteral}{"{}\ selected\ from\ Player\ 1's\ holder"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Shape:\ "{}}\ <<\ (player1Hands[i].getShapeAsString())\ <<\ \textcolor{stringliteral}{"{},\ Color:\ "{}}\ <<\ (player1Hands[i].getColorAsString())\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cells[i].selected\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ selectedTileIndex\ =\ i;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileSelected\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cells[i].selected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00305}00305\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00306}00306\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (currentPlayer\ ==\ 2\ \&\&\ m\_tileHolder[1].getGlobalBounds().contains(mousePosition))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00307}00307\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ player2Hands.size();\ ++i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00309}00309\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ posX\ =\ m\_tileHolder[1].getPosition().x\ -\/\ m\_tileHolder[1].getSize().x\ /\ 2.0f\ +\ i\ *\ (40.0f\ +\ 10.0f)\ +\ 20.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ posY\ =\ m\_tileHolder[1].getPosition().y\ -\/\ m\_tileHolder[1].getSize().y\ /\ 2.0f\ +\ 30.0f;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00312}00312\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ sf::FloatRect\ tileBounds(posX,\ posY,\ 40.0f,\ 40.0f);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00314}00314\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileBounds.contains(mousePosition))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nTile\ "{}}\ <<\ i\ <<\ \textcolor{stringliteral}{"{}\ selected\ from\ Player\ 2's\ holder"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Shape:\ "{}}\ <<\ (player2Hands[i].getShapeAsString())\ <<\ \textcolor{stringliteral}{"{},\ Color:\ "{}}\ <<\ (player2Hands[i].getColorAsString())\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00319}00319\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cells[i].selected\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ selectedTileIndex\ =\ i;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileSelected\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cells[i].selected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00329}00329\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00330}00330\ \ \ \ \ \textcolor{keywordflow}{if}\ (tileSelected)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00331}00331\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00332}00332\ \ \ \ \ \ \ \ \ sf::Vector2i\ gridPosition\ =\ getGridPosition(mousePosition);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00333}00333\ \ \ \ \ \ \ \ \ newGridPosition\ =\ gridPosition;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isValidPlacement(gridPosition,\ currentPlayer))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00335}00335\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posX\ =\ gridPosition.x\ *\ tileSize\ +\ 25;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posY\ =\ gridPosition.y\ *\ tileSize\ +\ 25;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ gridRectangles[gridPosition.y][gridPosition.x].setFillColor(sf::Color::Black);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPlayer\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileShape\ =\ player1Hands[selectedTileIndex].getTileShape();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileShape\ =\ player2Hands[selectedTileIndex].getTileShape();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileShape)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileShape-\/>setPosition(posX,\ posY);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPlayer\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player1Hands[selectedTileIndex].setPosition(newGridPosition);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tilesOnBoard.push\_back(player1Hands[selectedTileIndex]);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player2Hands[selectedTileIndex].setPosition(newGridPosition);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tilesOnBoard.push\_back(player2Hands[selectedTileIndex]);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00360}00360\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPlayer\ ==\ 1\ \&\&\ selectedTileIndex\ >=\ 0\ \&\&\ selectedTileIndex\ <\ player1Hands.size()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ||\ currentPlayer\ ==\ 2\ \&\&\ selectedTileIndex\ >=\ 0\ \&\&\ selectedTileIndex\ <\ player2Hands.size())}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPlayer\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player1Hands.erase(player1Hands.begin()\ +\ selectedTileIndex);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player2Hands.erase(player2Hands.begin()\ +\ selectedTileIndex);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cells[selectedTileIndex].selected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ selectedTileIndex\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileSelected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Error:\ Invalid\ selected\ tile\ index"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ score\ =\ calculateScoreForPlacement(newGridPosition,\ currentPlayer);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPlayer\ ==\ 1)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player1Score\ +=\ score;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player2Score\ +=\ score;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00390}00390\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00391}00391\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00392}00392\ \ \ \ \ playerTurn\ =\ currentPlayer;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00393}00393\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00394}00394\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00400}00400\ \textcolor{keywordtype}{bool}\ Board::isValidPlacement(sf::Vector2i\ gridPosition,\ \textcolor{keywordtype}{int}\ currentPlayer)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00401}00401\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00402}00402\ \ \ \ \ \textcolor{keywordflow}{if}\ (startingGame)\ \textcolor{comment}{//\ Only\ happens\ once}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00403}00403\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00404}00404\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (gridPosition.x\ ==\ col\ /\ 2\ \&\&\ gridPosition.y\ ==\ row\ /\ 2)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00405}00405\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ startingGame\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00408}00408\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00409}00409\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00410}00410\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00411}00411\ \ \ \ \ \textcolor{keywordflow}{else}\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00412}00412\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00413}00413\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPlayer\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00414}00414\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ currentTile\ =\ player1Hands[selectedTileIndex];}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00416}00416\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00417}00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00418}00418\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ currentTile\ =\ player2Hands[selectedTileIndex];}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00420}00420\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00421}00421\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00422}00422\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ leftLine\ =\ checkLine(gridPosition,\ currentTile,\ sf::Vector2i(-\/1,\ 0));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00423}00423\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ rightLine\ =\ checkLine(gridPosition,\ currentTile,\ sf::Vector2i(1,\ 0));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00424}00424\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ upLine\ =\ checkLine(gridPosition,\ currentTile,\ sf::Vector2i(0,\ -\/1));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00425}00425\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ downLine\ =\ checkLine(gridPosition,\ currentTile,\ sf::Vector2i(0,\ 1));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00426}00426\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00427}00427\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ adjacent\ lines\ in\ all\ directions}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00428}00428\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ adjacentLinesValid\ =\ checkAdjacentLines(gridPosition,\ currentTile);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00429}00429\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00430}00430\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (adjacentLinesValid\ \&\&\ (leftLine\ \&\&\ rightLine\ \&\&\ upLine\ \&\&\ downLine))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00431}00431\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nValid\ line\ formed"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00434}00434\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00435}00435\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00436}00436\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00437}00437\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00438}00438\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00444}00444\ \textcolor{keywordtype}{bool}\ Board::checkAdjacentLines(sf::Vector2i\ gridPosition,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_tile}{Tile}}\&\ currentTile)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00445}00445\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00446}00446\ \ \ \ \ sf::Vector2i\ adjacentPositions[]\ =\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00447}00447\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \{gridPosition.x,\ gridPosition.y\ -\/\ 1\},\ \textcolor{comment}{//\ above}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \{gridPosition.x,\ gridPosition.y\ +\ 1\},\ \textcolor{comment}{//\ below}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \{gridPosition.x\ -\/\ 1,\ gridPosition.y\},\ \textcolor{comment}{//\ left}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \{gridPosition.x\ +\ 1,\ gridPosition.y\}\ \ \textcolor{comment}{//\ right}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00452}00452\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00453}00453\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00454}00454\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ position\ :\ adjacentPositions)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00455}00455\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00456}00456\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ position\ is\ within\ the\ board\ boundaries}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00457}00457\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (position.x\ >=\ 0\ \&\&\ position.x\ <\ col\ \&\&\ position.y\ >=\ 0\ \&\&\ position.y\ <\ row)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00458}00458\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tile\ :\ tilesOnBoard)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sf::Vector2i\ tilePosition\ =\ tile.\mbox{\hyperlink{class_tile_a7d66c942c846468c179afe012eeb8fd5}{getPosition}}();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (position\ ==\ tilePosition)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Compare\ color\ or\ shape\ of\ the\ current\ tile\ with\ the\ adjacent\ tile}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentTile.\mbox{\hyperlink{class_tile_a619f32415e593c88d3e0cf54a8e23fe4}{getColor}}()\ ==\ tile.\mbox{\hyperlink{class_tile_a619f32415e593c88d3e0cf54a8e23fe4}{getColor}}())\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Adjacent\ tile\ shares\ color"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (currentTile.\mbox{\hyperlink{class_tile_af4f94a2b7f3592ec9a8fc85a69fe273c}{getShape}}()\ ==\ tile.\mbox{\hyperlink{class_tile_af4f94a2b7f3592ec9a8fc85a69fe273c}{getShape}}())\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00472}00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Adjacent\ tile\ shares\ shape"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00473}00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00475}00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00477}00477\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00478}00478\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00479}00479\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00480}00480\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00481}00481\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00489}00489\ \textcolor{keywordtype}{bool}\ Board::checkLine(\textcolor{keyword}{const}\ sf::Vector2i\&\ gridPosition,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_tile}{Tile}}\&\ currentTile,\ \textcolor{keyword}{const}\ sf::Vector2i\&\ direction)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00490}00490\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00491}00491\ \ \ \ \ \textcolor{keywordtype}{int}\ countColor\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00492}00492\ \ \ \ \ \textcolor{keywordtype}{int}\ countShape\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00493}00493\ \ \ \ \ \textcolor{keywordtype}{bool}\ lineDetected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00494}00494\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00495}00495\ \ \ \ \ std::vector<Tile>\ lineTiles;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00496}00496\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00497}00497\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <=\ 5;\ ++i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00498}00498\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00499}00499\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x\ =\ gridPosition.x\ +\ i\ *\ direction.x;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00500}00500\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ y\ =\ gridPosition.y\ +\ i\ *\ direction.y;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00501}00501\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00502}00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ <\ 0\ ||\ x\ >=\ col\ ||\ y\ <\ 0\ ||\ y\ >=\ row)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00503}00503\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \textcolor{comment}{//\ reached\ board\ boundary}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00505}00505\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00506}00506\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00507}00507\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ tileFound\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00508}00508\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tile\ :\ tilesOnBoard)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00509}00509\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ sf::Vector2i\ tilePosition\ =\ tile.\mbox{\hyperlink{class_tile_a7d66c942c846468c179afe012eeb8fd5}{getPosition}}();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tilePosition.x\ ==\ x\ \&\&\ tilePosition.y\ ==\ y)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lineTiles.push\_back(tile);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileFound\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00516}00516\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00517}00517\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00518}00518\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!tileFound)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00519}00519\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \textcolor{comment}{//\ break\ if\ a\ gap\ in\ the\ line\ is\ found}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00521}00521\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00522}00522\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00523}00523\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00524}00524\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ line\ exists\ and\ the\ current\ tile\ can\ be\ placed\ in\ it}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00525}00525\ \ \ \ \ \textcolor{keywordflow}{if}\ (!lineTiles.empty())}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00526}00526\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00527}00527\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tile\ :\ lineTiles)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00528}00528\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tile.\mbox{\hyperlink{class_tile_a619f32415e593c88d3e0cf54a8e23fe4}{getColor}}()\ ==\ currentTile.\mbox{\hyperlink{class_tile_a619f32415e593c88d3e0cf54a8e23fe4}{getColor}}())\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ countColor++;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tile.\mbox{\hyperlink{class_tile_af4f94a2b7f3592ec9a8fc85a69fe273c}{getShape}}()\ ==\ currentTile.\mbox{\hyperlink{class_tile_af4f94a2b7f3592ec9a8fc85a69fe273c}{getShape}}())}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ countShape++;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00537}00537\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00538}00538\ \ \ \ \ \ \ \ \ lineDetected\ =\ (countColor\ ==\ lineTiles.size()\ ||\ countShape\ ==\ lineTiles.size());}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00539}00539\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00540}00540\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00541}00541\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00542}00542\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !lineDetected;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00543}00543\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00544}00544\ \ \ \ \ \textcolor{keywordflow}{return}\ lineDetected;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00545}00545\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00546}00546\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00552}00552\ sf::Vector2i\ Board::getGridPosition(sf::Vector2f\ mousePosition)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00553}00553\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00554}00554\ \ \ \ \ \textcolor{keywordtype}{int}\ gridX\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(mousePosition.x\ /\ tileSize);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00555}00555\ \ \ \ \ \textcolor{keywordtype}{int}\ gridY\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(mousePosition.y\ /\ tileSize);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00556}00556\ \ \ \ \ \textcolor{keywordflow}{return}\ sf::Vector2i(gridX,\ gridY);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00557}00557\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00558}00558\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00562}00562\ \textcolor{keywordtype}{void}\ Board::setupUI()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00563}00563\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00564}00564\ \ \ \ \ m\_bottomUI.setFillColor(sf::Color::Cyan);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00565}00565\ \ \ \ \ m\_bottomUI.setOutlineColor(sf::Color::Red);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00566}00566\ \ \ \ \ m\_bottomUI.setOutlineThickness(1);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00567}00567\ \ \ \ \ m\_bottomUI.setSize(sf::Vector2f(1200,\ 150));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00568}00568\ \ \ \ \ m\_bottomUI.setPosition(sf::Vector2f(\mbox{\hyperlink{struct_global_a4187c3fa9aa792816911e6396366d81b}{Global::S\_WIDTH}}\ /\ 2,\ \mbox{\hyperlink{struct_global_aa47328c906980d2d7f08cdcc7087f662}{Global::S\_HEIGHT}}\ -\/\ 150));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00569}00569\ \ \ \ \ m\_bottomUI.setOrigin(m\_bottomUI.getSize().x\ /\ 2,\ 0);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00570}00570\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00571}00571\ \ \ \ \ m\_seperationLineUI.setFillColor(sf::Color::Black);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00572}00572\ \ \ \ \ m\_seperationLineUI.setSize(sf::Vector2f(10,\ 65));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00573}00573\ \ \ \ \ m\_seperationLineUI.setPosition(sf::Vector2f(\mbox{\hyperlink{struct_global_a4187c3fa9aa792816911e6396366d81b}{Global::S\_WIDTH}}\ /\ 2,\ \mbox{\hyperlink{struct_global_aa47328c906980d2d7f08cdcc7087f662}{Global::S\_HEIGHT}}\ -\/\ 65));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00574}00574\ \ \ \ \ m\_seperationLineUI.setOrigin(m\_seperationLineUI.getSize().x\ /\ 2,\ 0);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00575}00575\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00576}00576\ \ \ \ \ m\_boxBagForTextUI.setFillColor(sf::Color::Black);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00577}00577\ \ \ \ \ m\_boxBagForTextUI.setSize(sf::Vector2f(100,\ 85));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00578}00578\ \ \ \ \ m\_boxBagForTextUI.setPosition(sf::Vector2f(\mbox{\hyperlink{struct_global_a4187c3fa9aa792816911e6396366d81b}{Global::S\_WIDTH}}\ /\ 2,\ \mbox{\hyperlink{struct_global_aa47328c906980d2d7f08cdcc7087f662}{Global::S\_HEIGHT}}\ -\/\ 150));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00579}00579\ \ \ \ \ m\_boxBagForTextUI.setOrigin(m\_boxBagForTextUI.getSize().x\ /\ 2,\ 0);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00580}00580\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00581}00581\ \ \ \ \ sf::Color\ darkGreen(0,\ 100,\ 0);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00582}00582\ \ \ \ \ m\_tileHolder[0].setFillColor(darkGreen);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00583}00583\ \ \ \ \ m\_tileHolder[0].setOutlineColor(sf::Color::Red);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00584}00584\ \ \ \ \ m\_tileHolder[0].setOutlineThickness(2);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00585}00585\ \ \ \ \ m\_tileHolder[0].setSize(sf::Vector2f(300,\ 50));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00586}00586\ \ \ \ \ m\_tileHolder[0].setPosition(sf::Vector2f(\mbox{\hyperlink{struct_global_a4187c3fa9aa792816911e6396366d81b}{Global::S\_WIDTH}}\ /\ 4,\ \mbox{\hyperlink{struct_global_aa47328c906980d2d7f08cdcc7087f662}{Global::S\_HEIGHT}}\ -\/\ 100));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00587}00587\ \ \ \ \ m\_tileHolder[0].setOrigin(m\_tileHolder[0].getSize().x\ /\ 2,\ 0);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00588}00588\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00589}00589\ \ \ \ \ m\_tileHolder[1].setFillColor(darkGreen);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00590}00590\ \ \ \ \ m\_tileHolder[1].setOutlineColor(sf::Color::Red);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00591}00591\ \ \ \ \ m\_tileHolder[1].setOutlineThickness(2);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00592}00592\ \ \ \ \ m\_tileHolder[1].setSize(sf::Vector2f(300,\ 50));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00593}00593\ \ \ \ \ m\_tileHolder[1].setPosition(sf::Vector2f(\mbox{\hyperlink{struct_global_a4187c3fa9aa792816911e6396366d81b}{Global::S\_WIDTH}}\ /\ 2\ +\ 300,\ \mbox{\hyperlink{struct_global_aa47328c906980d2d7f08cdcc7087f662}{Global::S\_HEIGHT}}\ -\/\ 100));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00594}00594\ \ \ \ \ m\_tileHolder[1].setOrigin(m\_tileHolder[1].getSize().x\ /\ 2,\ 0);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00595}00595\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00596}00596\ \ \ \ \ m\_bagUI.setFillColor(sf::Color::Black);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00597}00597\ \ \ \ \ m\_bagUI.setOutlineColor(sf::Color::Red);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00598}00598\ \ \ \ \ m\_bagUI.setOutlineThickness(3);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00599}00599\ \ \ \ \ m\_bagUI.setSize(sf::Vector2f(650,\ 800));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00600}00600\ \ \ \ \ m\_bagUI.setPosition(sf::Vector2f(\mbox{\hyperlink{struct_global_a4187c3fa9aa792816911e6396366d81b}{Global::S\_WIDTH}}\ /\ 2,\ (\mbox{\hyperlink{struct_global_aa47328c906980d2d7f08cdcc7087f662}{Global::S\_HEIGHT}}\ /\ 2)\ -\/\ 100));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00601}00601\ \ \ \ \ m\_bagUI.setOrigin(m\_bagUI.getSize().x\ /\ 2,\ m\_bagUI.getSize().y\ /\ 2);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00602}00602\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00603}00603\ \ \ \ \ \textcolor{comment}{//\ score\ text}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00604}00604\ \ \ \ \ m\_player1ScoreText.setFont(m\_ArialBlackfont);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00605}00605\ \ \ \ \ m\_player1ScoreText.setCharacterSize(24);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00606}00606\ \ \ \ \ m\_player1ScoreText.setFillColor(sf::Color::Black);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00607}00607\ \ \ \ \ m\_player1ScoreText.setPosition(sf::Vector2f(\mbox{\hyperlink{struct_global_a4187c3fa9aa792816911e6396366d81b}{Global::S\_WIDTH}}\ /\ 4\ -\/\ 70,\ \mbox{\hyperlink{struct_global_aa47328c906980d2d7f08cdcc7087f662}{Global::S\_HEIGHT}}\ -\/\ 140));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00608}00608\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00609}00609\ \ \ \ \ m\_player2ScoreText.setFont(m\_ArialBlackfont);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00610}00610\ \ \ \ \ m\_player2ScoreText.setCharacterSize(24);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00611}00611\ \ \ \ \ m\_player2ScoreText.setFillColor(sf::Color::Black);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00612}00612\ \ \ \ \ m\_player2ScoreText.setPosition(sf::Vector2f(\mbox{\hyperlink{struct_global_a4187c3fa9aa792816911e6396366d81b}{Global::S\_WIDTH}}\ *\ 3\ /\ 4\ -\/\ 70,\ \mbox{\hyperlink{struct_global_aa47328c906980d2d7f08cdcc7087f662}{Global::S\_HEIGHT}}\ -\/\ 140));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00613}00613\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00614}00614\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00615}00615\ \textcolor{keywordtype}{void}\ Board::setupFontAndText()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00616}00616\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00617}00617\ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_ArialBlackfont.loadFromFile(\textcolor{stringliteral}{"{}ASSETS\(\backslash\)\(\backslash\)FONTS\(\backslash\)\(\backslash\)ariblk.ttf"{}}))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00618}00618\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00619}00619\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}problem\ loading\ arial\ black\ font"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00620}00620\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00621}00621\ \ \ \ \ m\_bagText.setFont(m\_ArialBlackfont);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00622}00622\ \ \ \ \ m\_bagText.setStyle(sf::Text::Italic);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00623}00623\ \ \ \ \ m\_bagText.setCharacterSize(20U);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00624}00624\ \ \ \ \ m\_bagText.setFillColor(sf::Color::White);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00625}00625\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00626}00626\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00627}00627\ \textcolor{keywordtype}{void}\ Board::updateScores()\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00628}00628\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00629}00629\ \ \ \ \ m\_player1ScoreText.setString(\textcolor{stringliteral}{"{}Player\ 1:\ "{}}\ +\ std::to\_string(player1Score));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00630}00630\ \ \ \ \ m\_player2ScoreText.setString(\textcolor{stringliteral}{"{}Player\ 2:\ "{}}\ +\ std::to\_string(player2Score));}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00631}00631\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00632}00632\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00636}\mbox{\hyperlink{class_board_a6844f6db8700ef11cbafb72e62217c00}{00636}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_a6844f6db8700ef11cbafb72e62217c00}{Board::toggleBag}}()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00637}00637\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00638}00638\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nbag\ opened"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00639}00639\ \ \ \ \ m\_toggleBag\ =\ !m\_toggleBag;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00640}00640\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00641}00641\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00645}\mbox{\hyperlink{class_board_ae93d5b98412d311f24f3419ccece639e}{00645}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_ae93d5b98412d311f24f3419ccece639e}{Board::endTurn}}()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00646}00646\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00647}00647\ \ \ \ \ randomTilesInHolder();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00648}00648\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00649}00649\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00654}\mbox{\hyperlink{class_board_a02c127dccaa52482de6d376e49bcc28c}{00654}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_a02c127dccaa52482de6d376e49bcc28c}{Board::AITurn}}()\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00655}00655\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00656}00656\ \ \ \ \ sf::Vector2i\ gridPosition(-\/1,\ -\/1);\ \textcolor{comment}{//\ Initialize\ with\ invalid\ position}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00657}00657\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00658}00658\ \ \ \ \ \textcolor{comment}{//\ Loop\ through\ the\ tiles\ in\ player2Hands\ for\ AI}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00659}00659\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ player2Hands.size();\ ++i)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00660}00660\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00661}00661\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ each\ tile\ against\ each\ position\ on\ the\ board}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00662}00662\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x\ <\ col;\ ++x)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00663}00663\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00664}00664\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ y\ =\ 0;\ y\ <\ row;\ ++y)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00665}00665\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00666}00666\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sf::Vector2i\ currentPos(x,\ y);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00667}00667\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ selectedTileIndex\ =\ i;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00668}00668\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isValidPlacement(currentPos,\ 2))\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00669}00669\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00670}00670\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ placement\ is\ valid,\ set\ the\ gridPosition\ and\ break\ the\ loops}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00671}00671\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gridPosition\ =\ currentPos;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00672}00672\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00673}00673\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00674}00674\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00675}00675\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (gridPosition\ !=\ sf::Vector2i(-\/1,\ -\/1))\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00676}00676\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00677}00677\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00678}00678\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00679}00679\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00680}00680\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (gridPosition\ !=\ sf::Vector2i(-\/1,\ -\/1))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00681}00681\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00682}00682\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ a\ valid\ position\ is\ found,\ place\ the\ tile\ and\ break\ the\ loop}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00683}00683\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posX\ =\ gridPosition.x\ *\ tileSize\ +\ 25;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00684}00684\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posY\ =\ gridPosition.y\ *\ tileSize\ +\ 25;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00685}00685\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00686}00686\ \ \ \ \ \ \ \ \ \ \ \ \ gridRectangles[gridPosition.y][gridPosition.x].setFillColor(sf::Color::Black);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00687}00687\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00688}00688\ \ \ \ \ \ \ \ \ \ \ \ \ tileShape\ =\ player2Hands[i].getTileShape();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00689}00689\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileShape)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00690}00690\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00691}00691\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileShape-\/>setPosition(posX,\ posY);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00692}00692\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player2Hands[i].setPosition(gridPosition);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00693}00693\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tilesOnBoard.push\_back(player2Hands[i]);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00694}00694\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00695}00695\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player2Hands.erase(player2Hands.begin()\ +\ i);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00696}00696\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cells[selectedTileIndex].selected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00697}00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ selectedTileIndex\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00698}00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileSelected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00699}00699\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00700}00700\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ score\ =\ calculateScoreForPlacement(gridPosition,\ 2);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00701}00701\ \ \ \ \ \ \ \ \ \ \ \ \ player2Score\ +=\ score;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00702}00702\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00703}00703\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00704}00704\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00705}00705\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00706}00706\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00710}\mbox{\hyperlink{class_board_ac78675483e3b3871754719249f7bb3e3}{00710}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_ac78675483e3b3871754719249f7bb3e3}{Board::AIMultiplePlacements}}()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00711}00711\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00712}00712\ \ \ \ \ \textcolor{keywordtype}{bool}\ placedTile\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00713}00713\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00714}00714\ \ \ \ \ \textcolor{comment}{//\ Loop\ through\ the\ tiles\ in\ player2Hands}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00715}00715\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ player2Hands.size();\ ++i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00716}00716\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00717}00717\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ foundPosition\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00718}00718\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00719}00719\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ each\ tile\ against\ each\ position\ on\ the\ board}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00720}00720\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x\ <\ col;\ ++x)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00721}00721\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00722}00722\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ y\ =\ 0;\ y\ <\ row;\ ++y)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00723}00723\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00724}00724\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sf::Vector2i\ currentPos(x,\ y);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00725}00725\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ selectedTileIndex\ =\ i;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00726}00726\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isValidPlacement(currentPos,\ 2))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00727}00727\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00728}00728\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posX\ =\ currentPos.x\ *\ tileSize\ +\ 25;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00729}00729\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ posY\ =\ currentPos.y\ *\ tileSize\ +\ 25;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00730}00730\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00731}00731\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gridRectangles[currentPos.y][currentPos.x].setFillColor(sf::Color::Black);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00732}00732\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00733}00733\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sf::Shape*\ tileShape\ =\ player2Hands[i].getTileShape();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00734}00734\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileShape)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00735}00735\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00736}00736\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileShape-\/>setPosition(posX,\ posY);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00737}00737\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player2Hands[i].setPosition(currentPos);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00738}00738\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tilesOnBoard.push\_back(player2Hands[i]);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00739}00739\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ foundPosition\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00740}00740\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ placedTile\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00741}00741\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ score\ =\ calculateScoreForPlacement(currentPos,\ 2);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00742}00742\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player2Score\ +=\ score;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00743}00743\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00744}00744\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00745}00745\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00746}00746\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00747}00747\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (foundPosition)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00748}00748\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00749}00749\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00750}00750\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00751}00751\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00752}00752\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00753}00753\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00754}00754\ \ \ \ \ \textcolor{comment}{//\ Remove\ all\ placed\ tiles\ from\ player2Hands}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00755}00755\ \ \ \ \ \textcolor{keywordflow}{if}\ (placedTile)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00756}00756\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00757}00757\ \ \ \ \ \ \ \ \ player2Hands.erase(std::remove\_if(player2Hands.begin(),\ player2Hands.end(),}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00758}00758\ \ \ \ \ \ \ \ \ \ \ \ \ [\&](\textcolor{keyword}{const}\ \mbox{\hyperlink{class_tile}{Tile}}\&\ tile)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00759}00759\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00760}00760\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ std::find(tilesOnBoard.begin(),\ tilesOnBoard.end(),\ tile)\ !=\ tilesOnBoard.end();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00761}00761\ \ \ \ \ \ \ \ \ \ \ \ \ \}),}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00762}00762\ \ \ \ \ \ \ \ \ \ \ \ \ player2Hands.end());}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00763}00763\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00764}00764\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00765}00765\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00766}00766\ \textcolor{comment}{//void\ Board::MiniMax()}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00767}00767\ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00768}00768\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00769}00769\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00770}00770\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00771}\mbox{\hyperlink{class_board_adf9ddfcae7d2394882ec6cd58c416818}{00771}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_board_adf9ddfcae7d2394882ec6cd58c416818}{Board::miniMax}}(\textcolor{keywordtype}{int}\ depth,\ \textcolor{keywordtype}{bool}\ maximizingPlayer)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00772}00772\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00773}00773\ \ \ \ \ \textcolor{keywordflow}{if}\ (depth\ ==\ 0\textcolor{comment}{/*\ ||\ gameIsOver()*/})}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00774}00774\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00775}00775\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_board_a836f69c030b03fc4183d9c745a07b10e}{evaluateBoard}}();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00776}00776\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00777}00777\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00778}00778\ \ \ \ \ \textcolor{keywordflow}{if}\ (maximizingPlayer)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00779}00779\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00780}00780\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ maxEval\ =\ std::numeric\_limits<int>::min();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00781}00781\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00782}00782\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ maxEval;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00783}00783\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00784}00784\ \ \ \ \ \textcolor{keywordflow}{else}\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00785}00785\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00786}00786\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ minEval\ =\ std::numeric\_limits<int>::max();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00787}00787\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00788}00788\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ minEval;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00789}00789\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00790}00790\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00791}00791\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00792}\mbox{\hyperlink{class_board_a836f69c030b03fc4183d9c745a07b10e}{00792}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_board_a836f69c030b03fc4183d9c745a07b10e}{Board::evaluateBoard}}()\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00793}00793\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00794}00794\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00795}00795\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00796}00796\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00797}\mbox{\hyperlink{class_board_aa39ca005ea170a5e2108faed0fc7a1b7}{00797}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_board_aa39ca005ea170a5e2108faed0fc7a1b7}{Board::findBestMove}}()}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00798}00798\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00799}00799\ \ \ \ \ \textcolor{keywordtype}{int}\ bestEval\ =\ std::numeric\_limits<int>::min();}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00800}00800\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00801}00801\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00809}00809\ \textcolor{keywordtype}{int}\ Board::calculateScoreForPlacement(\textcolor{keyword}{const}\ sf::Vector2i\&\ gridPosition,\ \textcolor{keywordtype}{int}\ currentPlayer)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00810}00810\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00811}00811\ \ \ \ \ \textcolor{keywordtype}{int}\ score\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00812}00812\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00813}00813\ \ \ \ \ \textcolor{comment}{//\ Check\ for\ horizontal\ line}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00814}00814\ \ \ \ \ \textcolor{keywordtype}{int}\ horizontalCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00815}00815\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ gridPosition.x\ -\/\ 1;\ i\ >=\ 0;\ -\/-\/i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00816}00816\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00817}00817\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isSameTile(gridPosition.y,\ i,\ currentPlayer))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00818}00818\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00819}00819\ \ \ \ \ \ \ \ \ \ \ \ \ horizontalCount++;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00820}00820\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00821}00821\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00822}00822\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00823}00823\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00824}00824\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00825}00825\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00826}00826\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ gridPosition.x\ +\ 1;\ i\ <\ col;\ ++i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00827}00827\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00828}00828\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isSameTile(gridPosition.y,\ i,\ currentPlayer))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00829}00829\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00830}00830\ \ \ \ \ \ \ \ \ \ \ \ \ horizontalCount++;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00831}00831\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00832}00832\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00833}00833\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00834}00834\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00835}00835\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00836}00836\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00837}00837\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00838}00838\ \ \ \ \ \textcolor{comment}{//\ Check\ for\ vertical\ line}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00839}00839\ \ \ \ \ \textcolor{keywordtype}{int}\ verticalCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00840}00840\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ gridPosition.y\ -\/\ 1;\ i\ >=\ 0;\ -\/-\/i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00841}00841\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00842}00842\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isSameTile(i,\ gridPosition.x,\ currentPlayer))}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00843}00843\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00844}00844\ \ \ \ \ \ \ \ \ \ \ \ \ verticalCount++;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00845}00845\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00846}00846\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00847}00847\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00848}00848\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00849}00849\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00850}00850\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00851}00851\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ gridPosition.y\ +\ 1;\ i\ <\ row;\ ++i)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00852}00852\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00853}00853\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isSameTile(i,\ gridPosition.x,\ currentPlayer))\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00854}00854\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00855}00855\ \ \ \ \ \ \ \ \ \ \ \ \ verticalCount++;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00856}00856\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00857}00857\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00858}00858\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00859}00859\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00860}00860\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00861}00861\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00862}00862\ \ \ \ \ \textcolor{comment}{//\ Calculate\ score\ based\ on\ line\ count}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00863}00863\ \ \ \ \ score\ =\ (horizontalCount\ >\ 1\ ?\ horizontalCount\ :\ 0)\ +\ (verticalCount\ >\ 1\ ?\ verticalCount\ :\ 0);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00864}00864\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00865}00865\ \ \ \ \ \textcolor{keywordflow}{return}\ score;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00866}00866\ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00867}00867\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00875}00875\ \textcolor{keywordtype}{bool}\ Board::isSameTile(\textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ currentPlayer)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00876}00876\ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00877}00877\ \ \ \ \ sf::Vector2i\ position(x,\ y);}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00878}00878\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<Tile>\&\ currentHands\ =\ (currentPlayer\ ==\ 1)\ ?\ player1Hands\ :\ player2Hands;}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00879}00879\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00880}00880\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tile\ :\ tilesOnBoard)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00881}00881\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00882}00882\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tile.\mbox{\hyperlink{class_tile_a7d66c942c846468c179afe012eeb8fd5}{getPosition}}()\ ==\ position)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00883}00883\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00884}00884\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00885}00885\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00886}00886\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00887}00887\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00888}00888\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tile\ :\ currentHands)}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00889}00889\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00890}00890\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tile.\mbox{\hyperlink{class_tile_a7d66c942c846468c179afe012eeb8fd5}{getPosition}}()\ ==\ position)\ }
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00891}00891\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00892}00892\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00893}00893\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00894}00894\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00895}00895\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_board_8cpp_source_l00896}00896\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,199 @@
+\doxysection{Board Class Reference}
+\hypertarget{class_board}{}\label{class_board}\index{Board@{Board}}
+
+
+{\ttfamily \#include $<$Board.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_board_a9ee491d4fea680cf69b033374a9fdfcb}{Board}} ()
+\item 
+\mbox{\hyperlink{class_board_af73f45730119a1fd8f6670f53f959e68}{\texorpdfstring{$\sim$}{\string~}\+Board}} ()
+\item 
+void \mbox{\hyperlink{class_board_ad4a95039a939022f9c4a21c5d39f6953}{render}} (sf\+::\+Render\+Window \&m\+\_\+window)
+\item 
+void \mbox{\hyperlink{class_board_aa170cb05bb38de48e19a72b51d898eca}{update}} ()
+\item 
+void \mbox{\hyperlink{class_board_a6844f6db8700ef11cbafb72e62217c00}{toggle\+Bag}} ()
+\begin{DoxyCompactList}\small\item\em opens and closes the bag \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_board_ae93d5b98412d311f24f3419ccece639e}{end\+Turn}} ()
+\begin{DoxyCompactList}\small\item\em after ending turn you get random tiles from the bag to your holder \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_board_a02c127dccaa52482de6d376e49bcc28c}{AITurn}} ()
+\begin{DoxyCompactList}\small\item\em very basic move for AI finds a valid placement for a tile in its hand \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_board_ac78675483e3b3871754719249f7bb3e3}{AIMultiple\+Placements}} ()
+\begin{DoxyCompactList}\small\item\em Makes the AI place all the available tiles it has in its hand. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_board_adf9ddfcae7d2394882ec6cd58c416818}{mini\+Max}} (int depth, bool maximizing\+Player)
+\item 
+int \mbox{\hyperlink{class_board_a836f69c030b03fc4183d9c745a07b10e}{evaluate\+Board}} ()
+\item 
+void \mbox{\hyperlink{class_board_aa39ca005ea170a5e2108faed0fc7a1b7}{find\+Best\+Move}} ()
+\item 
+void \mbox{\hyperlink{class_board_adbb58f3886f57419f64f340c72e32de9}{selected\+Tile}} (sf\+::\+Vector2f mouse\+Position, int current\+Player)
+\begin{DoxyCompactList}\small\item\em This is for selecting the tile from the holder and placing it down. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_board_8h_source_l00024}{24}} of file \mbox{\hyperlink{_board_8h_source}{Board.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_board_a9ee491d4fea680cf69b033374a9fdfcb}\label{class_board_a9ee491d4fea680cf69b033374a9fdfcb} 
+\index{Board@{Board}!Board@{Board}}
+\index{Board@{Board}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{Board()}{Board()}}
+{\footnotesize\ttfamily Board\+::\+Board (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00003}{3}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+\Hypertarget{class_board_af73f45730119a1fd8f6670f53f959e68}\label{class_board_af73f45730119a1fd8f6670f53f959e68} 
+\index{Board@{Board}!````~Board@{\texorpdfstring{$\sim$}{\string~}Board}}
+\index{````~Board@{\texorpdfstring{$\sim$}{\string~}Board}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Board()}{\string~Board()}}
+{\footnotesize\ttfamily Board\+::\texorpdfstring{$\sim$}{\string~}\+Board (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00012}{12}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_board_ac78675483e3b3871754719249f7bb3e3}\label{class_board_ac78675483e3b3871754719249f7bb3e3} 
+\index{Board@{Board}!AIMultiplePlacements@{AIMultiplePlacements}}
+\index{AIMultiplePlacements@{AIMultiplePlacements}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{AIMultiplePlacements()}{AIMultiplePlacements()}}
+{\footnotesize\ttfamily void Board\+::\+AIMultiple\+Placements (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Makes the AI place all the available tiles it has in its hand. 
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00710}{710}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+\Hypertarget{class_board_a02c127dccaa52482de6d376e49bcc28c}\label{class_board_a02c127dccaa52482de6d376e49bcc28c} 
+\index{Board@{Board}!AITurn@{AITurn}}
+\index{AITurn@{AITurn}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{AITurn()}{AITurn()}}
+{\footnotesize\ttfamily void Board\+::\+AITurn (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+very basic move for AI finds a valid placement for a tile in its hand 
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00654}{654}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+\Hypertarget{class_board_ae93d5b98412d311f24f3419ccece639e}\label{class_board_ae93d5b98412d311f24f3419ccece639e} 
+\index{Board@{Board}!endTurn@{endTurn}}
+\index{endTurn@{endTurn}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{endTurn()}{endTurn()}}
+{\footnotesize\ttfamily void Board\+::end\+Turn (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+after ending turn you get random tiles from the bag to your holder 
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00645}{645}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+\Hypertarget{class_board_a836f69c030b03fc4183d9c745a07b10e}\label{class_board_a836f69c030b03fc4183d9c745a07b10e} 
+\index{Board@{Board}!evaluateBoard@{evaluateBoard}}
+\index{evaluateBoard@{evaluateBoard}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{evaluateBoard()}{evaluateBoard()}}
+{\footnotesize\ttfamily int Board\+::evaluate\+Board (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00792}{792}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+\Hypertarget{class_board_aa39ca005ea170a5e2108faed0fc7a1b7}\label{class_board_aa39ca005ea170a5e2108faed0fc7a1b7} 
+\index{Board@{Board}!findBestMove@{findBestMove}}
+\index{findBestMove@{findBestMove}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{findBestMove()}{findBestMove()}}
+{\footnotesize\ttfamily void Board\+::find\+Best\+Move (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00797}{797}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+\Hypertarget{class_board_adf9ddfcae7d2394882ec6cd58c416818}\label{class_board_adf9ddfcae7d2394882ec6cd58c416818} 
+\index{Board@{Board}!miniMax@{miniMax}}
+\index{miniMax@{miniMax}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{miniMax()}{miniMax()}}
+{\footnotesize\ttfamily int Board\+::mini\+Max (\begin{DoxyParamCaption}\item[{int}]{depth,  }\item[{bool}]{maximizing\+Player }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00771}{771}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+\Hypertarget{class_board_ad4a95039a939022f9c4a21c5d39f6953}\label{class_board_ad4a95039a939022f9c4a21c5d39f6953} 
+\index{Board@{Board}!render@{render}}
+\index{render@{render}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily void Board\+::render (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{m\+\_\+window }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00016}{16}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+\Hypertarget{class_board_adbb58f3886f57419f64f340c72e32de9}\label{class_board_adbb58f3886f57419f64f340c72e32de9} 
+\index{Board@{Board}!selectedTile@{selectedTile}}
+\index{selectedTile@{selectedTile}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{selectedTile()}{selectedTile()}}
+{\footnotesize\ttfamily void Board\+::selected\+Tile (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Position,  }\item[{int}]{current\+Player }\end{DoxyParamCaption})}
+
+
+
+This is for selecting the tile from the holder and placing it down. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mouse\+Position} & mouse position \\
+\hline
+{\em current\+Player} & which player \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00280}{280}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+\Hypertarget{class_board_a6844f6db8700ef11cbafb72e62217c00}\label{class_board_a6844f6db8700ef11cbafb72e62217c00} 
+\index{Board@{Board}!toggleBag@{toggleBag}}
+\index{toggleBag@{toggleBag}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{toggleBag()}{toggleBag()}}
+{\footnotesize\ttfamily void Board\+::toggle\+Bag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+opens and closes the bag 
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00636}{636}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+\Hypertarget{class_board_aa170cb05bb38de48e19a72b51d898eca}\label{class_board_aa170cb05bb38de48e19a72b51d898eca} 
+\index{Board@{Board}!update@{update}}
+\index{update@{update}!Board@{Board}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Board\+::update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_board_8cpp_source_l00060}{60}} of file \mbox{\hyperlink{_board_8cpp_source}{Board.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+CA1 Qwirkle/\mbox{\hyperlink{_board_8h}{Board.\+h}}\item 
+CA1 Qwirkle/\mbox{\hyperlink{_board_8cpp}{Board.\+cpp}}\end{DoxyCompactItemize}

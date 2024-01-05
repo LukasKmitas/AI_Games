@@ -50,6 +50,11 @@ public:
         return m_color;
     }
 
+    bool operator==(const Tile& other) const
+    {
+        return (m_shape == other.m_shape && m_color == other.m_color);
+    }
+
     std::string getShapeAsString() const;
     std::string getColorAsString() const;
 
