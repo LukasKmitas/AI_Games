@@ -244,7 +244,7 @@ void Game::processAITurn()
 		m_board.AIMultiplePlacements();
 		break;
 	case Game::Difficulty::HARD:
-		m_board.MiniMax();
+		//m_board.MiniMax();
 		break;
 	default:
 		break;

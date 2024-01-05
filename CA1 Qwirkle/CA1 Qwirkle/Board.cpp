@@ -775,7 +775,7 @@ int Board::miniMax(int depth, bool maximizingPlayer)
         return evaluateBoard();
     }
 
-    if (maximizingPlayer) 
+   /* if (maximizingPlayer) 
     {
         int maxEval = std::numeric_limits<int>::min();
        
@@ -786,17 +786,18 @@ int Board::miniMax(int depth, bool maximizingPlayer)
         int minEval = std::numeric_limits<int>::max();
         
         return minEval;
-    }
+    }*/
+    return 0;
 }
 
 int Board::evaluateBoard() 
 {
-    
+    return 0;
 }
 
 void Board::findBestMove()
 {
-    int bestEval = std::numeric_limits<int>::min();
+    //int bestEval = std::numeric_limits<int>::min();
 }
 
 /// <summary>
